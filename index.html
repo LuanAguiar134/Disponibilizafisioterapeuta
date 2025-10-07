@@ -4,45 +4,112 @@
   <meta charset="UTF-8" />
   <title>DisponibilizaFisio</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; margin:0; padding:0; }
-    header { text-align:center; background: #4a90e2; color:white; padding:20px; }
-    header img { width:160px; display:block; margin:0 auto 10px; }
-    .container { max-width:500px; background:#fff; margin:20px auto; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
-    label { display:block; margin:10px 0 5px; }
-    input, select, button { width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; }
-    button { background:#6a0dad; color:white; border:none; cursor:pointer; }
-    button:hover { background:#4a90e2; }
-    .hidden { display:none; }
-    .solicitacao { background:#e0e0e0; padding:10px; border-radius:5px; margin:5px 0; }
-    #msgLogout { color: green; margin-bottom: 10px; font-weight: bold; text-align: center; }
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .login-container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #FF6A00;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #e65c00;
+    }
+    .hidden {
+      display: none;
+    }
+    .link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .painel-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .solicitacao {
+      background:#f0f0f0;
+      padding:10px;
+      border-radius:5px;
+      margin:10px 0;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://i.imgur.com/pogIrpm.jpeg" alt="Logo" />
-    <h1>DisponibilizaFisio</h1>
-    <p>Seu bem estar mais próximo de você!</p>
-  </header>
 
-  <!-- Área de cadastro/login -->
-  <div class="container hidden" id="auth">
-    <div id="msgLogout" class="hidden"></div>
-    <h2>Cadastro</h2>
-    <label>Tipo de Usuário</label>
+  <!-- Tela de Login/Cadastro -->
+  <div class="login-container" id="auth">
+    <h2>DisponibilizaFisio</h2>
+
+    <label for="tipo">Tipo de Usuário</label>
     <select id="tipo">
       <option value="paciente">Paciente</option>
       <option value="fisioterapeuta">Fisioterapeuta</option>
     </select>
-    <label>Nome</label>
-    <input type="text" id="nome" />
-    <label>Telefone</label>
-    <input type="text" id="telefone" />
-    <label>Email</label>
-    <input type="email" id="email" />
-    <label>Senha</label>
-    <input type="password" id="senha" />
-    <label>Confirmar Senha</label>
-    <input type="password" id="confirmarSenha" />
+
+    <label for="nome">Nome</label>
+    <input type="text" id="nome" placeholder="Digite seu nome">
+
+    <label for="telefone">Telefone</label>
+    <input type="text" id="telefone" placeholder="(XX) XXXXX-XXXX">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="email@exemplo.com">
+
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" placeholder="******">
+
+    <label for="confirmarSenha">Confirmar Senha</label>
+    <input type="password" id="confirmarSenha" placeholder="******">
+
     <div id="areaFisio" class="hidden">
       <label>Área de Atuação</label>
       <select id="especialidade">
@@ -64,29 +131,35 @@
         <option>Quiropraxia</option>
       </select>
     </div>
+
     <button onclick="cadastrar()">Cadastrar</button>
 
-    <h2>Login</h2>
-    <label>Email</label>
-    <input type="email" id="loginEmail" />
-    <label>Senha</label>
-    <input type="password" id="loginSenha" />
+    <hr style="margin: 25px 0;">
+
+    <label for="loginEmail">Email</label>
+    <input type="email" id="loginEmail" placeholder="email@exemplo.com">
+
+    <label for="loginSenha">Senha</label>
+    <input type="password" id="loginSenha" placeholder="******">
+
     <button onclick="login()">Entrar</button>
+
+    <div class="link"><a href="#">Esqueceu a senha?</a></div>
   </div>
 
-  <!-- Painel do Fisioterapeuta -->
-  <div class="container hidden" id="painelFisio">
-    <h2>Painel do Fisioterapeuta</h2>
-    <p>Seus dados foram salvos e pacientes poderão te encontrar pelo filtro.</p>
-    <h3>Solicitações de Atendimento</h3>
+  <!-- Painel Fisioterapeuta -->
+  <div class="painel-container hidden" id="painelFisio">
+    <h2>Bem-vindo, Fisioterapeuta!</h2>
+    <p>Pacientes poderão encontrar você pela sua especialidade.</p>
+    <h3>Solicitações recebidas:</h3>
     <div id="solicitacoes"></div>
     <button onclick="logout()">Sair</button>
   </div>
 
-  <!-- Painel do Paciente -->
-  <div class="container hidden" id="painelPaciente">
+  <!-- Painel Paciente -->
+  <div class="painel-container hidden" id="painelPaciente">
     <h2>Buscar Fisioterapeutas</h2>
-    <label>Selecione a área de fisioterapia</label>
+    <label>Escolha uma especialidade</label>
     <select id="filtroArea"></select>
     <button onclick="buscarFisioterapeutas()">Buscar</button>
     <div id="listaFisio"></div>
@@ -98,13 +171,11 @@
     let solicitacoes = JSON.parse(localStorage.getItem("solicitacoes") || "[]");
     let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
 
-    const msgLogout = document.getElementById("msgLogout");
-
     document.getElementById("tipo").addEventListener("change", (e) => {
       document.getElementById("areaFisio").classList.toggle("hidden", e.target.value !== "fisioterapeuta");
     });
 
-    function preencherFiltro() {
+    const preencherFiltro = () => {
       const areas = [
         "Acupuntura", "Aquática", "Cardiovascular", "Dermatofuncional",
         "Desportiva", "Do Trabalho", "Gerontologia", "Neurofuncional",
@@ -112,20 +183,14 @@
         "Saúde da Mulher", "Terapia Intensiva", "Osteopatia", "Quiropraxia"
       ];
       const select = document.getElementById("filtroArea");
-      select.innerHTML = areas.map((a) => `<option>${a}</option>`).join("");
-    }
+      select.innerHTML = areas.map(a => `<option>${a}</option>`).join("");
+    };
 
     preencherFiltro();
 
-    // Mostra painel se já estiver logado
-    if (usuarioLogado) {
-      mostrarPainel();
-    } else {
-      document.getElementById("auth").classList.remove("hidden");
-    }
+    if (usuarioLogado) mostrarPainel();
 
     function cadastrar() {
-      msgLogout.classList.add("hidden");
       const tipo = document.getElementById("tipo").value;
       const nome = document.getElementById("nome").value.trim();
       const telefone = document.getElementById("telefone").value.trim();
@@ -144,7 +209,7 @@
         return;
       }
 
-      if (usuarios.find((u) => u.email === email)) {
+      if (usuarios.find(u => u.email === email)) {
         alert("Email já cadastrado.");
         return;
       }
@@ -153,19 +218,12 @@
       usuarios.push(novoUsuario);
       localStorage.setItem("usuarios", JSON.stringify(usuarios));
       alert("Cadastro realizado com sucesso! Faça login.");
-
-      document.getElementById("nome").value = "";
-      document.getElementById("telefone").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("senha").value = "";
-      document.getElementById("confirmarSenha").value = "";
     }
 
     function login() {
-      msgLogout.classList.add("hidden");
       const email = document.getElementById("loginEmail").value.trim();
       const senha = document.getElementById("loginSenha").value.trim();
-      const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
+      const usuario = usuarios.find(u => u.email === email && u.senha === senha);
 
       if (!usuario) {
         alert("Email ou senha inválidos.");
@@ -178,28 +236,17 @@
     }
 
     function logout() {
-      if (confirm("Tem certeza que deseja sair?")) {
+      if (confirm("Deseja sair?")) {
         usuarioLogado = null;
         localStorage.removeItem("usuarioLogado");
-
         document.getElementById("auth").classList.remove("hidden");
         document.getElementById("painelFisio").classList.add("hidden");
         document.getElementById("painelPaciente").classList.add("hidden");
-        document.getElementById("listaFisio").innerHTML = "";
-        document.getElementById("solicitacoes").innerHTML = "";
-        document.getElementById("loginEmail").value = "";
-        document.getElementById("loginSenha").value = "";
-        msgLogout.textContent = "Você saiu com sucesso!";
-        msgLogout.classList.remove("hidden");
-
-        window.scrollTo(0, 0);
       }
     }
 
     function mostrarPainel() {
-      msgLogout.classList.add("hidden");
       document.getElementById("auth").classList.add("hidden");
-
       if (usuarioLogado.tipo === "fisioterapeuta") {
         document.getElementById("painelFisio").classList.remove("hidden");
         mostrarSolicitacoes();
@@ -214,25 +261,26 @@
       lista.innerHTML = "";
 
       const fisioterapeutas = usuarios.filter(
-        (u) => u.tipo === "fisioterapeuta" && u.especialidade === area
+        u => u.tipo === "fisioterapeuta" && u.especialidade === area
       );
 
       if (fisioterapeutas.length === 0) {
-        lista.innerHTML = "<p>Nenhum fisioterapeuta encontrado nesta área.</p>";
+        lista.innerHTML = "<p>Nenhum fisioterapeuta encontrado.</p>";
       } else {
-        fisioterapeutas.forEach((f) => {
+        fisioterapeutas.forEach(f => {
           lista.innerHTML += `
             <div class="solicitacao">
-              <p><b>${f.nome}</b> - ${f.telefone} [${f.especialidade}]</p>
+              <p><strong>${f.nome}</strong> - ${f.telefone} [${f.especialidade}]</p>
               <button onclick="solicitarAtendimento('${f.email}')">Solicitar Atendimento</button>
-            </div>`;
+            </div>
+          `;
         });
       }
     }
 
     function solicitarAtendimento(emailFisio) {
       const jaSolicitou = solicitacoes.find(
-        (s) => s.fisioEmail === emailFisio && s.pacienteEmail === usuarioLogado.email
+        s => s.fisioEmail === emailFisio && s.pacienteEmail === usuarioLogado.email
       );
 
       if (jaSolicitou) {
@@ -254,16 +302,16 @@
     function mostrarSolicitacoes() {
       const area = document.getElementById("solicitacoes");
       const minhasSolicitacoes = solicitacoes.filter(
-        (s) => s.fisioEmail === usuarioLogado.email
+        s => s.fisioEmail === usuarioLogado.email
       );
 
-      if (minhasSolicitacoes.length === 0) {
-        area.innerHTML = "<p>Nenhuma solicitação recebida.</p>";
-      } else {
-        area.innerHTML = minhasSolicitacoes
-          .map((s) => `<div class="solicitacao"><b>${s.pacienteNome}</b><br>Telefone: ${s.pacienteTelefone}</div>`)
-          .join("");
-      }
+      area.innerHTML = minhasSolicitacoes.length === 0
+        ? "<p>Nenhuma solicitação recebida.</p>"
+        : minhasSolicitacoes.map(s => `
+            <div class="solicitacao">
+              <strong>${s.pacienteNome}</strong><br>
+              Telefone: ${s.pacienteTelefone}
+            </div>`).join("");
     }
   </script>
 </body>

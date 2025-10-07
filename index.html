@@ -14,6 +14,7 @@
     button:hover { background:#4a90e2; }
     .hidden { display:none; }
     .solicitacao { background:#e0e0e0; padding:10px; border-radius:5px; margin:5px 0; }
+    #msgLogout { color: green; margin-bottom: 10px; font-weight: bold; text-align: center; }
   </style>
 </head>
 <body>
@@ -25,6 +26,7 @@
 
   <!-- Área de cadastro/login -->
   <div class="container" id="auth">
+    <div id="msgLogout" class="hidden"></div> <!-- mensagem de logout aqui -->
     <h2>Cadastro</h2>
     <label>Tipo de Usuário</label>
     <select id="tipo">
@@ -39,6 +41,8 @@
     <input type="email" id="email" />
     <label>Senha</label>
     <input type="password" id="senha" />
+    <label>Confirmar Senha</label>
+    <input type="password" id="confirmarSenha" />
     <div id="areaFisio" class="hidden">
       <label>Área de Atuação</label>
       <select id="especialidade">
@@ -74,10 +78,8 @@
   <div class="container hidden" id="painelFisio">
     <h2>Painel do Fisioterapeuta</h2>
     <p>Seus dados foram salvos e pacientes poderão te encontrar pelo filtro.</p>
-
     <h3>Solicitações de Atendimento</h3>
     <div id="solicitacoes"></div>
-
     <button onclick="logout()">Sair</button>
   </div>
 
@@ -94,7 +96,9 @@
   <script>
     let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
     let solicitacoes = JSON.parse(localStorage.getItem("solicitacoes") || "[]");
-    let usuarioLogado = null;
+    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+
+    const msgLogout = document.getElementById("msgLogout");
 
     document.getElementById("tipo").addEventListener("change", (e) => {
       document.getElementById("areaFisio").classList.toggle("hidden", e.target.value !== "fisioterapeuta");
@@ -113,16 +117,27 @@
 
     preencherFiltro();
 
+    if (usuarioLogado) {
+      mostrarPainel();
+    }
+
     function cadastrar() {
+      msgLogout.classList.add("hidden"); // esconde mensagem logout caso esteja visível
       const tipo = document.getElementById("tipo").value;
       const nome = document.getElementById("nome").value.trim();
       const telefone = document.getElementById("telefone").value.trim();
       const email = document.getElementById("email").value.trim();
       const senha = document.getElementById("senha").value.trim();
+      const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
       const especialidade = tipo === "fisioterapeuta" ? document.getElementById("especialidade").value : null;
 
-      if (!nome || !telefone || !email || !senha) {
+      if (!nome || !telefone || !email || !senha || !confirmarSenha) {
         alert("Preencha todos os campos.");
+        return;
+      }
+
+      if (senha !== confirmarSenha) {
+        alert("As senhas não coincidem.");
         return;
       }
 
@@ -135,13 +150,16 @@
       usuarios.push(novoUsuario);
       localStorage.setItem("usuarios", JSON.stringify(usuarios));
       alert("Cadastro realizado com sucesso! Faça login.");
+
       document.getElementById("nome").value = "";
       document.getElementById("telefone").value = "";
       document.getElementById("email").value = "";
       document.getElementById("senha").value = "";
+      document.getElementById("confirmarSenha").value = "";
     }
 
     function login() {
+      msgLogout.classList.add("hidden"); // esconde mensagem logout
       const email = document.getElementById("loginEmail").value.trim();
       const senha = document.getElementById("loginSenha").value.trim();
       const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
@@ -152,21 +170,28 @@
       }
 
       usuarioLogado = usuario;
+      localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
       mostrarPainel();
     }
 
     function logout() {
-      usuarioLogado = null;
-      document.getElementById("auth").classList.remove("hidden");
-      document.getElementById("painelFisio").classList.add("hidden");
-      document.getElementById("painelPaciente").classList.add("hidden");
-      document.getElementById("listaFisio").innerHTML = "";
-      document.getElementById("solicitacoes").innerHTML = "";
-      document.getElementById("loginEmail").value = "";
-      document.getElementById("loginSenha").value = "";
+      if (confirm("Tem certeza que deseja sair?")) {
+        usuarioLogado = null;
+        localStorage.removeItem("usuarioLogado");
+        document.getElementById("auth").classList.remove("hidden");
+        document.getElementById("painelFisio").classList.add("hidden");
+        document.getElementById("painelPaciente").classList.add("hidden");
+        document.getElementById("listaFisio").innerHTML = "";
+        document.getElementById("solicitacoes").innerHTML = "";
+        document.getElementById("loginEmail").value = "";
+        document.getElementById("loginSenha").value = "";
+        msgLogout.textContent = "Você saiu com sucesso!";
+        msgLogout.classList.remove("hidden");
+      }
     }
 
     function mostrarPainel() {
+      msgLogout.classList.add("hidden"); // esconde mensagem logout se estiver visível
       document.getElementById("auth").classList.add("hidden");
       if (usuarioLogado.tipo === "fisioterapeuta") {
         document.getElementById("painelFisio").classList.remove("hidden");

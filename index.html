@@ -25,8 +25,8 @@
   </header>
 
   <!-- Área de cadastro/login -->
-  <div class="container" id="auth">
-    <div id="msgLogout" class="hidden"></div> <!-- mensagem de logout aqui -->
+  <div class="container hidden" id="auth">
+    <div id="msgLogout" class="hidden"></div>
     <h2>Cadastro</h2>
     <label>Tipo de Usuário</label>
     <select id="tipo">
@@ -117,12 +117,15 @@
 
     preencherFiltro();
 
+    // Mostra painel se já estiver logado
     if (usuarioLogado) {
       mostrarPainel();
+    } else {
+      document.getElementById("auth").classList.remove("hidden");
     }
 
     function cadastrar() {
-      msgLogout.classList.add("hidden"); // esconde mensagem logout caso esteja visível
+      msgLogout.classList.add("hidden");
       const tipo = document.getElementById("tipo").value;
       const nome = document.getElementById("nome").value.trim();
       const telefone = document.getElementById("telefone").value.trim();
@@ -159,7 +162,7 @@
     }
 
     function login() {
-      msgLogout.classList.add("hidden"); // esconde mensagem logout
+      msgLogout.classList.add("hidden");
       const email = document.getElementById("loginEmail").value.trim();
       const senha = document.getElementById("loginSenha").value.trim();
       const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
@@ -178,6 +181,7 @@
       if (confirm("Tem certeza que deseja sair?")) {
         usuarioLogado = null;
         localStorage.removeItem("usuarioLogado");
+
         document.getElementById("auth").classList.remove("hidden");
         document.getElementById("painelFisio").classList.add("hidden");
         document.getElementById("painelPaciente").classList.add("hidden");
@@ -187,12 +191,15 @@
         document.getElementById("loginSenha").value = "";
         msgLogout.textContent = "Você saiu com sucesso!";
         msgLogout.classList.remove("hidden");
+
+        window.scrollTo(0, 0);
       }
     }
 
     function mostrarPainel() {
-      msgLogout.classList.add("hidden"); // esconde mensagem logout se estiver visível
+      msgLogout.classList.add("hidden");
       document.getElementById("auth").classList.add("hidden");
+
       if (usuarioLogado.tipo === "fisioterapeuta") {
         document.getElementById("painelFisio").classList.remove("hidden");
         mostrarSolicitacoes();

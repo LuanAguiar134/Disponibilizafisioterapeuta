@@ -1,622 +1,220 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DisponibilizaFisio</title>
-<style>
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    font-family: Arial, sans-serif;
-    background: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    min-height: 100vh;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .logo {
-    margin-bottom: 20px;
-  }
-  .logo img {
-    width: 100px;
-    height: auto;
-  }
-  h1 {
-    color: #4a90e2;
-    margin-bottom: 30px;
-  }
-  .form-container, .dashboard-container {
-    background: #fff;
-    padding: 25px 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
-    width: 320px;
-  }
-  h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 20px;
-    text-align: center;
-  }
-  .form-group {
-    margin-bottom: 15px;
-  }
-  label {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
-  input[type=text],
-  input[type=email],
-  input[type=password],
-  select,
-  textarea,
-  input[type=datetime-local] {
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.2s;
-  }
-  input[type=text]:focus,
-  input[type=email]:focus,
-  input[type=password]:focus,
-  select:focus,
-  textarea:focus,
-  input[type=datetime-local]:focus {
-    border-color: #4a90e2;
-    outline: none;
-  }
-  button {
-    width: 100%;
-    background: #f37021;
-    border: none;
-    padding: 12px 0;
-    font-size: 16px;
-    color: #fff;
-    font-weight: 700;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  button:hover {
-    background: #d15900;
-  }
-  .link-toggle {
-    margin-top: 15px;
-    font-size: 14px;
-    text-align: center;
-  }
-  .link-toggle a {
-    color: #4a90e2;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .link-toggle a:hover {
-    text-decoration: underline;
-  }
-  .hidden {
-    display: none;
-  }
-  .endereco-group {
-    display: none;
-  }
-  /* Dashboard */
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  .dashboard-header h2 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-  }
-  .nav-buttons button {
-    margin-left: 5px;
-    width: auto;
-    padding: 6px 10px;
-    font-size: 14px;
-  }
-  .list-item {
-    border-bottom: 1px solid #eee;
-    padding: 8px 0;
-    font-size: 14px;
-  }
-  textarea {
-    resize: vertical;
-    min-height: 60px;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DisponibilizaFisio</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .logo img {
+      width: 100px;
+    }
+    h1 {
+      color: #4a90e2;
+      margin: 20px 0;
+    }
+    .form-container, .dashboard-container {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 360px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: 600;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      background: #f37021;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #d15900;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-<div class="logo">
-  <!-- Troque essa URL pelo seu logo real -->
-  <img src="https://i.imgur.com/3nqzX6w.jpeg" alt="DisponibilizaFisio Logo" />
-</div>
-
-<h1>DisponibilizaFisio</h1>
-
-<!-- Cadastro -->
-<div id="cadastro" class="form-container">
-  <h2>Cadastro</h2>
-  <form id="formCadastro">
-    <div class="form-group">
-      <label for="tipoUsuario">Tipo de Usuário</label>
-      <select id="tipoUsuario" name="tipoUsuario" required>
-        <option value="paciente">Paciente</option>
-        <option value="fisio">Fisioterapeuta</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="nome">Nome completo</label>
-      <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
-    </div>
-    <div class="form-group">
-      <label for="telefone">Telefone</label>
-      <input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required />
-    </div>
-    <div class="form-group endereco-group" id="enderecoGroup">
-      <label for="endereco">Endereço do consultório</label>
-      <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro, cidade" />
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="email@exemplo.com" required />
-    </div>
-    <div class="form-group">
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="Sua senha" required />
-    </div>
-    <div class="form-group">
-      <label for="confirmSenha">Confirmar senha</label>
-      <input type="password" id="confirmSenha" name="confirmSenha" placeholder="Confirme sua senha" required />
-    </div>
-    <button type="submit">Cadastrar</button>
-  </form>
-  <div class="link-toggle">
-    Já tem uma conta? <a id="linkParaLogin">Entrar</a>
+  <div class="logo">
+    <img src="https://i.imgur.com/3nqzX6w.jpeg" alt="Logo">
   </div>
-</div>
+  <h1>DisponibilizaFisio</h1>
 
-<!-- Login -->
-<div id="login" class="form-container hidden">
-  <h2>Login</h2>
-  <form id="formLogin">
-    <div class="form-group">
-      <label for="emailLogin">Email</label>
-      <input type="email" id="emailLogin" name="emailLogin" placeholder="email@exemplo.com" required />
-    </div>
-    <div class="form-group">
-      <label for="senhaLogin">Senha</label>
-      <input type="password" id="senhaLogin" name="senhaLogin" placeholder="Sua senha" required />
-    </div>
-    <button type="submit">Entrar</button>
-  </form>
-  <div class="link-toggle">
-    Ainda não tem conta? <a id="linkParaCadastro">Cadastrar</a><br/>
-    <a id="linkParaRecuperar">Esqueci a senha</a>
-  </div>
-</div>
-
-<!-- Recuperar Senha -->
-<div id="recuperarSenha" class="form-container hidden">
-  <h2>Recuperar Senha</h2>
-  <form id="formRecuperar">
-    <div class="form-group">
-      <label for="emailRecuperar">Email cadastrado</label>
-      <input type="email" id="emailRecuperar" name="emailRecuperar" placeholder="email@exemplo.com" required />
-    </div>
-    <button type="submit">Enviar instruções</button>
-  </form>
-  <div class="link-toggle">
-    Lembrou? <a id="linkVoltarLogin">Voltar ao login</a>
-  </div>
-</div>
-
-<!-- Dashboard -->
-<div id="dashboard" class="dashboard-container hidden">
-  <div class="dashboard-header">
-    <h2>Olá, <span id="nomeUsuario"></span></h2>
-    <button id="btnLogout" style="background:#ccc; color:#000; width:auto; padding:6px 12px; border-radius:4px;">Sair</button>
-  </div>
-  <div class="nav-buttons" style="text-align:center; margin-bottom:15px;">
-    <button id="btnAgenda">Agenda</button>
-    <button id="btnFeedback">Feedback</button>
-    <button id="btnNotificacoes">Notificações</button>
-  </div>
-
-  <!-- Conteúdo da Dashboard -->
-  <div id="conteudoDashboard">
-
-    <!-- Agenda -->
-    <div id="agenda" class="hidden">
-      <h3>Agenda de Consultas</h3>
-      <div id="listaConsultas"></div>
-
-      <div style="margin-top: 15px;">
-        <h4>Adicionar horário de consulta</h4>
-        <form id="formAgenda">
-          <div class="form-group">
-            <label for="dataHora">Data e Hora</label>
-            <input type="datetime-local" id="dataHora" name="dataHora" required />
-          </div>
-          <button type="submit">Adicionar</button>
-        </form>
+  <div id="cadastro" class="form-container">
+    <h2>Cadastro</h2>
+    <form id="formCadastro">
+      <div class="form-group">
+        <label for="tipoUsuario">Tipo de Usuário</label>
+        <select id="tipoUsuario" name="tipoUsuario" required>
+          <option value="">Selecione</option>
+          <option value="paciente">Paciente</option>
+          <option value="fisio">Fisioterapeuta</option>
+        </select>
       </div>
-    </div>
-
-    <!-- Feedback -->
-    <div id="feedback" class="hidden">
-      <h3>Feedback dos Pacientes</h3>
-      <div id="listaFeedbacks" style="max-height:150px; overflow-y:auto; border:1px solid #ccc; padding: 10px; border-radius:5px; margin-bottom: 15px;"></div>
-
-      <form id="formFeedback">
-        <div class="form-group">
-          <label for="feedbackTexto">Enviar feedback</label>
-          <textarea id="feedbackTexto" name="feedbackTexto" placeholder="Escreva seu feedback..." required></textarea>
-        </div>
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-
-    <!-- Notificações -->
-    <div id="notificacoes" class="hidden">
-      <h3>Notificações</h3>
-      <div id="listaNotificacoes" style="max-height:150px; overflow-y:auto; border:1px solid #ccc; padding: 10px; border-radius:5px;"></div>
-    </div>
-
+      <div class="form-group">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" required />
+      </div>
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" required />
+      </div>
+      <div class="form-group endereco-group hidden" id="enderecoGroup">
+        <label for="endereco">Endereço do consultório</label>
+        <input type="text" id="endereco" />
+      </div>
+      <div class="form-group especializacao-group hidden" id="especializacaoGroup">
+        <label for="especializacaoFisio">Especialização</label>
+        <select id="especializacaoFisio">
+          <option value="">Selecione uma especialização</option>
+          <option value="Ortopédica">Ortopédica</option>
+          <option value="Neurológica">Neurológica</option>
+          <option value="Respiratória">Respiratória</option>
+          <option value="Pediátrica">Pediátrica</option>
+        </select>
+      </div>
+      <div class="form-group area-paciente-group hidden" id="areaPacienteGroup">
+        <label for="areaPaciente">Área desejada</label>
+        <select id="areaPaciente">
+          <option value="">Selecione uma área</option>
+          <option value="Ortopédica">Ortopédica</option>
+          <option value="Neurológica">Neurológica</option>
+          <option value="Respiratória">Respiratória</option>
+          <option value="Pediátrica">Pediátrica</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" required />
+      </div>
+      <div class="form-group">
+        <label for="confirmSenha">Confirmar senha</label>
+        <input type="password" id="confirmSenha" required />
+      </div>
+      <button type="submit">Cadastrar</button>
+    </form>
   </div>
-</div>
 
-<script>
-  // Elementos principais
-  const cadastro = document.getElementById("cadastro");
-  const login = document.getElementById("login");
-  const recuperarSenha = document.getElementById("recuperarSenha");
-  const dashboard = document.getElementById("dashboard");
-  const tipoUsuario = document.getElementById("tipoUsuario");
-  const enderecoGroup = document.getElementById("enderecoGroup");
+  <div id="dashboard" class="dashboard-container hidden">
+    <h2>Bem-vindo(a), <span id="nomeUsuario"></span></h2>
+    <p><strong>Tipo:</strong> <span id="tipoUsuarioDash"></span></p>
+    <p id="infoExtraDash"></p>
+    <button onclick="logout()">Sair</button>
+  </div>
 
-  // Mostrar/ocultar campo endereço no cadastro
-  tipoUsuario.addEventListener("change", () => {
-    if(tipoUsuario.value === "fisio"){
-      enderecoGroup.style.display = "block";
-      enderecoGroup.querySelector("input").setAttribute("required", "required");
-    } else {
-      enderecoGroup.style.display = "none";
-      enderecoGroup.querySelector("input").removeAttribute("required");
-    }
-  });
+  <script>
+    const formCadastro = document.getElementById("formCadastro");
+    const tipoUsuario = document.getElementById("tipoUsuario");
+    const enderecoGroup = document.getElementById("enderecoGroup");
+    const especializacaoGroup = document.getElementById("especializacaoGroup");
+    const areaPacienteGroup = document.getElementById("areaPacienteGroup");
 
-  // Troca de telas
-  document.getElementById("linkParaLogin").addEventListener("click", () => {
-    cadastro.classList.add("hidden");
-    login.classList.remove("hidden");
-    recuperarSenha.classList.add("hidden");
-    dashboard.classList.add("hidden");
-  });
-  document.getElementById("linkParaCadastro").addEventListener("click", () => {
-    login.classList.add("hidden");
-    cadastro.classList.remove("hidden");
-    recuperarSenha.classList.add("hidden");
-    dashboard.classList.add("hidden");
-  });
-  document.getElementById("linkParaRecuperar").addEventListener("click", () => {
-    login.classList.add("hidden");
-    recuperarSenha.classList.remove("hidden");
-    cadastro.classList.add("hidden");
-    dashboard.classList.add("hidden");
-  });
-  document.getElementById("linkVoltarLogin").addEventListener("click", () => {
-    recuperarSenha.classList.add("hidden");
-    login.classList.remove("hidden");
-    cadastro.classList.add("hidden");
-    dashboard.classList.add("hidden");
-  });
-
-  // Armazenamento local
-  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-  let notificacoes = JSON.parse(localStorage.getItem("notificacoes")) || [];
-  let agendaConsultas = JSON.parse(localStorage.getItem("agendaConsultas")) || [];
-  let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
-
-  // Usuário logado (guardado durante sessão)
-  let usuarioLogado = null;
-
-  // Validação de cadastro
-  function validarCadastro(data) {
-    if(data.senha !== data.confirmSenha){
-      alert("Senhas não conferem!");
-      return false;
-    }
-    if(usuarios.some(u => u.email === data.email)){
-      alert("Email já cadastrado!");
-      return false;
-    }
-    return true;
-  }
-
-  // Cadastro
-  document.getElementById("formCadastro").addEventListener("submit", e => {
-    e.preventDefault();
-    const data = {
-      tipo: tipoUsuario.value,
-      nome: document.getElementById("nome").value.trim(),
-      telefone: document.getElementById("telefone").value.trim(),
-      endereco: document.getElementById("endereco").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      senha: document.getElementById("senha").value,
-      confirmSenha: document.getElementById("confirmSenha").value
-    };
-
-    if(!validarCadastro(data)) return;
-
-    usuarios.push({
-      tipo: data.tipo,
-      nome: data.nome,
-      telefone: data.telefone,
-      endereco: data.tipo === "fisio" ? data.endereco : "",
-      email: data.email,
-      senha: data.senha
+    tipoUsuario.addEventListener("change", () => {
+      const tipo = tipoUsuario.value;
+      enderecoGroup.classList.toggle("hidden", tipo !== "fisio");
+      especializacaoGroup.classList.toggle("hidden", tipo !== "fisio");
+      areaPacienteGroup.classList.toggle("hidden", tipo !== "paciente");
     });
 
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    alert("Cadastro realizado com sucesso! Faça login agora.");
-    cadastro.classList.add("hidden");
-    login.classList.remove("hidden");
-  });
+    formCadastro.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-  // Login
-  document.getElementById("formLogin").addEventListener("submit", e => {
-    e.preventDefault();
-    const email = document.getElementById("emailLogin").value.trim();
-    const senha = document.getElementById("senhaLogin").value;
+      const nome = document.getElementById("nome").value;
+      const telefone = document.getElementById("telefone").value;
+      const endereco = document.getElementById("endereco").value;
+      const especializacao = document.getElementById("especializacaoFisio").value;
+      const areaPaciente = document.getElementById("areaPaciente").value;
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+      const confirmSenha = document.getElementById("confirmSenha").value;
+      const tipo = tipoUsuario.value;
 
-    const user = usuarios.find(u => u.email === email && u.senha === senha);
-    if(!user){
-      alert("Email ou senha inválidos.");
-      return;
-    }
-    usuarioLogado = user;
-    mostrarDashboard();
-  });
-
-  // Recuperar senha (simulado)
-  document.getElementById("formRecuperar").addEventListener("submit", e => {
-    e.preventDefault();
-    const emailRec = document.getElementById("emailRecuperar").value.trim();
-    const user = usuarios.find(u => u.email === emailRec);
-    if(!user){
-      alert("Email não cadastrado.");
-      return;
-    }
-    alert(`Instruções para recuperar senha enviadas para: ${emailRec} (simulado)`);
-    recuperarSenha.classList.add("hidden");
-    login.classList.remove("hidden");
-  });
-
-  // Mostrar dashboard com nome e opções
-  function mostrarDashboard(){
-    cadastro.classList.add("hidden");
-    login.classList.add("hidden");
-    recuperarSenha.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-    document.getElementById("nomeUsuario").textContent = usuarioLogado.nome;
-    mostrarAgenda(); // abre agenda por padrão
-    carregarNotificacoes();
-    carregarFeedbacks();
-  }
-
-  // Logout
-  document.getElementById("btnLogout").addEventListener("click", () => {
-    usuarioLogado = null;
-    dashboard.classList.add("hidden");
-    login.classList.remove("hidden");
-  });
-
-  // Navegação dentro do dashboard
-  const btnAgenda = document.getElementById("btnAgenda");
-  const btnFeedback = document.getElementById("btnFeedback");
-  const btnNotificacoes = document.getElementById("btnNotificacoes");
-  const agendaDiv = document.getElementById("agenda");
-  const feedbackDiv = document.getElementById("feedback");
-  const notificacoesDiv = document.getElementById("notificacoes");
-
-  btnAgenda.addEventListener("click", () => {
-    mostrarAgenda();
-  });
-  btnFeedback.addEventListener("click", () => {
-    mostrarFeedback();
-  });
-  btnNotificacoes.addEventListener("click", () => {
-    mostrarNotificacoes();
-  });
-
-  function mostrarAgenda(){
-    agendaDiv.classList.remove("hidden");
-    feedbackDiv.classList.add("hidden");
-    notificacoesDiv.classList.add("hidden");
-    carregarAgenda();
-  }
-  function mostrarFeedback(){
-    agendaDiv.classList.add("hidden");
-    feedbackDiv.classList.remove("hidden");
-    notificacoesDiv.classList.add("hidden");
-    carregarFeedbacks();
-  }
-  function mostrarNotificacoes(){
-    agendaDiv.classList.add("hidden");
-    feedbackDiv.classList.add("hidden");
-    notificacoesDiv.classList.remove("hidden");
-    carregarNotificacoes();
-  }
-
-  // Agenda: carregar e mostrar
-  function carregarAgenda(){
-    const lista = document.getElementById("listaConsultas");
-    lista.innerHTML = "";
-    // Mostrar só horários do fisioterapeuta logado (se fisioterapeuta)
-    let consultasMostradas = [];
-    if(usuarioLogado.tipo === "fisio"){
-      consultasMostradas = agendaConsultas.filter(c => c.fisioEmail === usuarioLogado.email);
-    } else {
-      // paciente vê todos os horários disponíveis (todos fisioterapeutas)
-      consultasMostradas = agendaConsultas;
-    }
-    if(consultasMostradas.length === 0){
-      lista.innerHTML = "<p>Nenhuma consulta agendada.</p>";
-      return;
-    }
-    consultasMostradas.forEach(c => {
-      const item = document.createElement("div");
-      item.className = "list-item";
-      const dataHora = new Date(c.dataHora);
-      let texto = `${dataHora.toLocaleString()} - Fisioterapeuta: ${getNomePorEmail(c.fisioEmail)}`;
-      if(c.pacienteEmail){
-        texto += ` (Paciente: ${getNomePorEmail(c.pacienteEmail)})`;
-      } else if(usuarioLogado.tipo === "paciente"){
-        texto += ` - <button onclick="agendarConsulta('${c.dataHora}','${c.fisioEmail}')">Agendar</button>`;
+      if (senha !== confirmSenha) {
+        alert("Senhas não conferem.");
+        return;
       }
-      item.innerHTML = texto;
-      lista.appendChild(item);
+
+      const usuario = {
+        nome,
+        telefone,
+        email,
+        senha,
+        tipo,
+        endereco: tipo === "fisio" ? endereco : "",
+        especializacao: tipo === "fisio" ? especializacao : "",
+        areaDesejada: tipo === "paciente" ? areaPaciente : ""
+      };
+
+      localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+      mostrarDashboard(usuario);
     });
-  }
 
-  // Adicionar horário de consulta (somente fisioterapeuta)
-  document.getElementById("formAgenda").addEventListener("submit", e => {
-    e.preventDefault();
-    if(usuarioLogado.tipo !== "fisio"){
-      alert("Somente fisioterapeutas podem adicionar horários.");
-      return;
-    }
-    const dataHora = document.getElementById("dataHora").value;
-    if(!dataHora){
-      alert("Selecione uma data e hora válidas.");
-      return;
-    }
-    // Verifica se já existe
-    if(agendaConsultas.some(c => c.dataHora === dataHora && c.fisioEmail === usuarioLogado.email)){
-      alert("Esse horário já está adicionado.");
-      return;
-    }
-    agendaConsultas.push({ dataHora, fisioEmail: usuarioLogado.email, pacienteEmail: null });
-    localStorage.setItem("agendaConsultas", JSON.stringify(agendaConsultas));
-    document.getElementById("dataHora").value = "";
-    carregarAgenda();
-  });
+    function mostrarDashboard(usuario) {
+      document.getElementById("cadastro").classList.add("hidden");
+      document.getElementById("dashboard").classList.remove("hidden");
 
-  // Função para paciente agendar consulta
-  window.agendarConsulta = function(dataHora, fisioEmail){
-    const consultaIndex = agendaConsultas.findIndex(c => c.dataHora === dataHora && c.fisioEmail === fisioEmail);
-    if(consultaIndex === -1){
-      alert("Consulta não encontrada.");
-      return;
-    }
-    if(agendaConsultas[consultaIndex].pacienteEmail){
-      alert("Consulta já agendada.");
-      return;
-    }
-    agendaConsultas[consultaIndex].pacienteEmail = usuarioLogado.email;
-    localStorage.setItem("agendaConsultas", JSON.stringify(agendaConsultas));
-    alert("Consulta agendada com sucesso!");
-    carregarAgenda();
-  };
+      document.getElementById("nomeUsuario").textContent = usuario.nome;
+      document.getElementById("tipoUsuarioDash").textContent = usuario.tipo === "fisio" ? "Fisioterapeuta" : "Paciente";
 
-  // Pegar nome pelo email
-  function getNomePorEmail(email){
-    const user = usuarios.find(u => u.email === email);
-    return user ? user.nome : "Desconhecido";
-  }
-
-  // Feedback: carregar e mostrar
-  function carregarFeedbacks(){
-    const lista = document.getElementById("listaFeedbacks");
-    lista.innerHTML = "";
-    // Mostrar só feedbacks para o fisioterapeuta logado (se fisio)
-    let feedbacksMostrados = [];
-    if(usuarioLogado.tipo === "fisio"){
-      feedbacksMostrados = feedbacks.filter(fb => fb.fisioEmail === usuarioLogado.email);
-    } else {
-      // Paciente vê só seus próprios feedbacks enviados
-      feedbacksMostrados = feedbacks.filter(fb => fb.pacienteEmail === usuarioLogado.email);
+      if (usuario.tipo === "fisio") {
+        document.getElementById("infoExtraDash").innerHTML = `<strong>Especialização:</strong> ${usuario.especializacao || 'Não informado'}<br><strong>Endereço:</strong> ${usuario.endereco || 'Não informado'}`;
+      } else {
+        document.getElementById("infoExtraDash").innerHTML = `<strong>Área desejada:</strong> ${usuario.areaDesejada || 'Não informada'}`;
+      }
     }
-    if(feedbacksMostrados.length === 0){
-      lista.innerHTML = "<p>Nenhum feedback disponível.</p>";
-      return;
-    }
-    feedbacksMostrados.forEach(fb => {
-      const item = document.createElement("div");
-      item.className = "list-item";
-      item.textContent = fb.texto + " (" + new Date(fb.data).toLocaleDateString() + ")";
-      lista.appendChild(item);
-    });
-  }
 
-  // Feedback: enviar
-  document.getElementById("formFeedback").addEventListener("submit", e => {
-    e.preventDefault();
-    const texto = document.getElementById("feedbackTexto").value.trim();
-    if(texto.length < 5){
-      alert("Feedback muito curto.");
-      return;
+    function logout() {
+      localStorage.removeItem("usuarioLogado");
+      location.reload();
     }
-    if(usuarioLogado.tipo !== "paciente"){
-      alert("Somente pacientes podem enviar feedback.");
-      return;
-    }
-    // Assumimos que o paciente envia feedback para o fisioterapeuta de uma consulta agendada.
-    // Pegamos o primeiro fisioterapeuta com quem ele tem consulta.
-    const consulta = agendaConsultas.find(c => c.pacienteEmail === usuarioLogado.email);
-    if(!consulta){
-      alert("Você precisa agendar uma consulta para enviar feedback.");
-      return;
-    }
-    feedbacks.push({
-      pacienteEmail: usuarioLogado.email,
-      fisioEmail: consulta.fisioEmail,
-      texto,
-      data: new Date().toISOString()
-    });
-    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
-    document.getElementById("feedbackTexto").value = "";
-    alert("Feedback enviado! Obrigado.");
-    carregarFeedbacks();
-  });
 
-  // Notificações: carregar e mostrar
-  function carregarNotificacoes(){
-    const lista = document.getElementById("listaNotificacoes");
-    lista.innerHTML = "";
-    // Mostrar notificações relacionadas ao usuário
-    let nots = notificacoes.filter(n => n.email === usuarioLogado.email);
-    if(nots.length === 0){
-      lista.innerHTML = "<p>Sem notificações.</p>";
-      return;
-    }
-    nots.forEach(n => {
-      const item = document.createElement("div");
-      item.className = "list-item";
-      item.textContent = n.mensagem + " (" + new Date(n.data).toLocaleString() + ")";
-      lista.appendChild(item);
-    });
-  }
-
-  // Exemplo: adicionar notificação
-  // notificacoes.push({ email: "exemplo@exemplo.com", mensagem: "Consulta amanhã às 14h.", data: new Date().toISOString() });
-  // localStorage.setItem("notificacoes", JSON.stringify(notificacoes));
-
-</script>
-
+    // Carregar dashboard direto se usuário estiver logado
+    window.onload = () => {
+      const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+      if (usuarioLogado) {
+        mostrarDashboard(usuarioLogado);
+      }
+    };
+  </script>
 </body>
 </html>

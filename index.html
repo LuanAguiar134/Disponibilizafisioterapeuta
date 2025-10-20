@@ -1,244 +1,169 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DisponibilizaFisio</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      min-height: 100vh;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-    .logo img {
-      width: 100px;
-    }
-    h1 {
-      color: #4a90e2;
-      margin: 20px 0;
-    }
-    .form-container, .dashboard-container {
-      background: #fff;
-      padding: 25px 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 360px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      font-weight: 600;
-      font-size: 14px;
-      display: block;
-      margin-bottom: 5px;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      width: 100%;
-      background: #f37021;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      color: white;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #d15900;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+<!-- A PARTIR DO HEAD -->
+...
+<style>
+  ...
+  .avaliacao-container {
+    margin-top: 20px;
+  }
+  .estrelas input[type="radio"] {
+    display: none;
+  }
+  .estrelas label {
+    color: #ccc;
+    font-size: 24px;
+    padding: 0 5px;
+    cursor: pointer;
+  }
+  .estrelas input[type="radio"]:checked ~ label {
+    color: gold;
+  }
+</style>
 </head>
 <body>
-
-  <div class="logo">
-    <img src="https://i.imgur.com/3nqzX6w.jpeg" alt="Logo">
+...
+<!-- MANTÉM TODA A ESTRUTURA ATÉ O DASHBOARD -->
+<div id="dashboard" class="dashboard-container hidden">
+  <h2>Bem-vindo(a), <span id="nomeUsuario"></span></h2>
+  <p><strong>Tipo:</strong> <span id="tipoUsuarioDash"></span></p>
+  <p id="infoExtraDash"></p>
+  <div id="conteudoDinamico"></div>
+  <div class="avaliacao-container hidden" id="avaliacaoContainer">
+    <h3>Avaliar Fisioterapeuta</h3>
+    <div class="estrelas">
+      <input type="radio" name="estrela" id="estrela5" value="5"><label for="estrela5">★</label>
+      <input type="radio" name="estrela" id="estrela4" value="4"><label for="estrela4">★</label>
+      <input type="radio" name="estrela" id="estrela3" value="3"><label for="estrela3">★</label>
+      <input type="radio" name="estrela" id="estrela2" value="2"><label for="estrela2">★</label>
+      <input type="radio" name="estrela" id="estrela1" value="1"><label for="estrela1">★</label>
+    </div>
+    <textarea id="comentarioAvaliacao" rows="3" style="width:100%;" placeholder="Deixe um comentário..."></textarea>
+    <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
   </div>
-  <h1>DisponibilizaFisio</h1>
+  <button onclick="logout()">Sair</button>
+</div>
 
-  <div id="cadastro" class="form-container">
-    <h2>Cadastro</h2>
-    <form id="formCadastro">
-      <div class="form-group">
-        <label for="tipoUsuario">Tipo de Usuário</label>
-        <select id="tipoUsuario" name="tipoUsuario" required>
-          <option value="">Selecione</option>
-          <option value="paciente">Paciente</option>
-          <option value="fisio">Fisioterapeuta</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="nome">Nome completo</label>
-        <input type="text" id="nome" required />
-      </div>
-      <div class="form-group">
-        <label for="telefone">Telefone</label>
-        <input type="text" id="telefone" required />
-      </div>
-      <div class="form-group endereco-group hidden" id="enderecoGroup">
-        <label for="endereco">Endereço do consultório</label>
-        <input type="text" id="endereco" />
-      </div>
-      <div class="form-group especializacao-group hidden" id="especializacaoGroup">
-        <label for="especializacaoFisio">Especialização</label>
-        <select id="especializacaoFisio">
-          <option value="">Selecione uma especialização</option>
-          <option value="Acupuntura">Acupuntura</option>
-          <option value="Aquática">Aquática</option>
-          <option value="Cardiovascular">Cardiovascular</option>
-          <option value="Dermatofuncional">Dermatofuncional</option>
-          <option value="Desportiva">Desportiva</option>
-          <option value="do Trabalho">do Trabalho</option>
-          <option value="em Gerontologia">em Gerontologia</option>
-          <option value="Neurofuncional">Neurofuncional</option>
-          <option value="em Oncologia">em Oncologia</option>
-          <option value="em Reumatologia">em Reumatologia</option>
-          <option value="Respiratória">Respiratória</option>
-          <option value="Traumato-Ortopédica">Traumato-Ortopédica</option>
-          <option value="em Saúde da Mulher">em Saúde da Mulher</option>
-          <option value="em Terapia Intensiva">em Terapia Intensiva</option>
-          <option value="Osteopatia">Osteopatia</option>
-          <option value="Quiropraxia">Quiropraxia</option>
-        </select>
-      </div>
-      <div class="form-group area-paciente-group hidden" id="areaPacienteGroup">
-        <label for="areaPaciente">Área desejada</label>
-        <select id="areaPaciente">
-          <option value="">Selecione uma área</option>
-          <option value="Acupuntura">Acupuntura</option>
-          <option value="Aquática">Aquática</option>
-          <option value="Cardiovascular">Cardiovascular</option>
-          <option value="Dermatofuncional">Dermatofuncional</option>
-          <option value="Desportiva">Desportiva</option>
-          <option value="do Trabalho">do Trabalho</option>
-          <option value="em Gerontologia">em Gerontologia</option>
-          <option value="Neurofuncional">Neurofuncional</option>
-          <option value="em Oncologia">em Oncologia</option>
-          <option value="em Reumatologia">em Reumatologia</option>
-          <option value="Respiratória">Respiratória</option>
-          <option value="Traumato-Ortopédica">Traumato-Ortopédica</option>
-          <option value="em Saúde da Mulher">em Saúde da Mulher</option>
-          <option value="em Terapia Intensiva">em Terapia Intensiva</option>
-          <option value="Osteopatia">Osteopatia</option>
-          <option value="Quiropraxia">Quiropraxia</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" required />
-      </div>
-      <div class="form-group">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" required />
-      </div>
-      <div class="form-group">
-        <label for="confirmSenha">Confirmar senha</label>
-        <input type="password" id="confirmSenha" required />
-      </div>
-      <button type="submit">Cadastrar</button>
-    </form>
-  </div>
+<script>
+  const formCadastro = document.getElementById("formCadastro");
+  const tipoUsuario = document.getElementById("tipoUsuario");
+  const enderecoGroup = document.getElementById("enderecoGroup");
+  const especializacaoGroup = document.getElementById("especializacaoGroup");
+  const areaPacienteGroup = document.getElementById("areaPacienteGroup");
+  const conteudoDinamico = document.getElementById("conteudoDinamico");
 
-  <div id="dashboard" class="dashboard-container hidden">
-    <h2>Bem-vindo(a), <span id="nomeUsuario"></span></h2>
-    <p><strong>Tipo:</strong> <span id="tipoUsuarioDash"></span></p>
-    <p id="infoExtraDash"></p>
-    <button onclick="logout()">Sair</button>
-  </div>
+  tipoUsuario.addEventListener("change", () => {
+    const tipo = tipoUsuario.value;
+    enderecoGroup.classList.toggle("hidden", tipo !== "fisio");
+    especializacaoGroup.classList.toggle("hidden", tipo !== "fisio");
+    areaPacienteGroup.classList.toggle("hidden", tipo !== "paciente");
+  });
 
-  <script>
-    const formCadastro = document.getElementById("formCadastro");
-    const tipoUsuario = document.getElementById("tipoUsuario");
-    const enderecoGroup = document.getElementById("enderecoGroup");
-    const especializacaoGroup = document.getElementById("especializacaoGroup");
-    const areaPacienteGroup = document.getElementById("areaPacienteGroup");
+  formCadastro.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-    tipoUsuario.addEventListener("change", () => {
-      const tipo = tipoUsuario.value;
-      enderecoGroup.classList.toggle("hidden", tipo !== "fisio");
-      especializacaoGroup.classList.toggle("hidden", tipo !== "fisio");
-      areaPacienteGroup.classList.toggle("hidden", tipo !== "paciente");
-    });
+    const nome = document.getElementById("nome").value;
+    const telefone = document.getElementById("telefone").value;
+    const endereco = document.getElementById("endereco").value;
+    const especializacao = document.getElementById("especializacaoFisio").value;
+    const areaPaciente = document.getElementById("areaPaciente").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    const confirmSenha = document.getElementById("confirmSenha").value;
+    const tipo = tipoUsuario.value;
 
-    formCadastro.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const nome = document.getElementById("nome").value;
-      const telefone = document.getElementById("telefone").value;
-      const endereco = document.getElementById("endereco").value;
-      const especializacao = document.getElementById("especializacaoFisio").value;
-      const areaPaciente = document.getElementById("areaPaciente").value;
-      const email = document.getElementById("email").value;
-      const senha = document.getElementById("senha").value;
-      const confirmSenha = document.getElementById("confirmSenha").value;
-      const tipo = tipoUsuario.value;
-
-      if (senha !== confirmSenha) {
-        alert("Senhas não conferem.");
-        return;
-      }
-
-      const usuario = {
-        nome,
-        telefone,
-        email,
-        senha,
-        tipo,
-        endereco: tipo === "fisio" ? endereco : "",
-        especializacao: tipo === "fisio" ? especializacao : "",
-        areaDesejada: tipo === "paciente" ? areaPaciente : ""
-      };
-
-      localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-      mostrarDashboard(usuario);
-    });
-
-    function mostrarDashboard(usuario) {
-      document.getElementById("cadastro").classList.add("hidden");
-      document.getElementById("dashboard").classList.remove("hidden");
-
-      document.getElementById("nomeUsuario").textContent = usuario.nome;
-      document.getElementById("tipoUsuarioDash").textContent = usuario.tipo === "fisio" ? "Fisioterapeuta" : "Paciente";
-
-      if (usuario.tipo === "fisio") {
-        document.getElementById("infoExtraDash").innerHTML = `<strong>Especialização:</strong> ${usuario.especializacao || 'Não informado'}<br><strong>Endereço:</strong> ${usuario.endereco || 'Não informado'}`;
-      } else {
-        document.getElementById("infoExtraDash").innerHTML = `<strong>Área desejada:</strong> ${usuario.areaDesejada || 'Não informada'}`;
-      }
+    if (senha !== confirmSenha) {
+      alert("Senhas não conferem.");
+      return;
     }
 
-    function logout() {
-      localStorage.removeItem("usuarioLogado");
-      location.reload();
-    }
-
-    // Carregar dashboard direto se usuário estiver logado
-    window.onload = () => {
-      const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-      if (usuarioLogado) {
-        mostrarDashboard(usuarioLogado);
-      }
+    const usuario = {
+      nome,
+      telefone,
+      email,
+      senha,
+      tipo,
+      endereco: tipo === "fisio" ? endereco : "",
+      especializacao: tipo === "fisio" ? especializacao : "",
+      areaDesejada: tipo === "paciente" ? areaPaciente : ""
     };
-  </script>
-</body>
-</html>
+
+    // Simula base de usuários salvos
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    usuarios.push(usuario);
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+    mostrarDashboard(usuario);
+  });
+
+  function mostrarDashboard(usuario) {
+    document.getElementById("cadastro").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+
+    document.getElementById("nomeUsuario").textContent = usuario.nome;
+    document.getElementById("tipoUsuarioDash").textContent = usuario.tipo === "fisio" ? "Fisioterapeuta" : "Paciente";
+
+    if (usuario.tipo === "fisio") {
+      document.getElementById("infoExtraDash").innerHTML = `<strong>Especialização:</strong> ${usuario.especializacao || 'Não informado'}<br><strong>Endereço:</strong> ${usuario.endereco || 'Não informado'}`;
+      listarSolicitacoes(usuario);
+    } else {
+      document.getElementById("infoExtraDash").innerHTML = `<strong>Área desejada:</strong> ${usuario.areaDesejada || 'Não informada'}`;
+      listarFisioterapeutas(usuario.areaDesejada);
+      document.getElementById("avaliacaoContainer").classList.remove("hidden");
+    }
+  }
+
+  function listarFisioterapeutas(area) {
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const fisioterapeutas = usuarios.filter(u => u.tipo === "fisio" && u.especializacao === area);
+
+    let html = `<h3>Fisioterapeutas disponíveis para área: ${area}</h3>`;
+    if (fisioterapeutas.length === 0) {
+      html += "<p>Nenhum fisioterapeuta encontrado nesta área.</p>";
+    } else {
+      fisioterapeutas.forEach(f => {
+        html += `<p><strong>${f.nome}</strong><br>Especialização: ${f.especializacao}<br>Endereço: ${f.endereco}</p>`;
+      });
+    }
+    conteudoDinamico.innerHTML = html;
+  }
+
+  function listarSolicitacoes(fisio) {
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const solicitantes = usuarios.filter(u => u.tipo === "paciente" && u.areaDesejada === fisio.especializacao);
+
+    let html = "<h3>Pacientes que solicitaram atendimento nesta especialização:</h3>";
+    if (solicitantes.length === 0) {
+      html += "<p>Nenhum paciente solicitou atendimento ainda.</p>";
+    } else {
+      solicitantes.forEach(p => {
+        html += `<p><strong>${p.nome}</strong><br>Telefone: ${p.telefone}</p>`;
+      });
+    }
+    conteudoDinamico.innerHTML = html;
+  }
+
+  function enviarAvaliacao() {
+    const estrelaSelecionada = document.querySelector('input[name="estrela"]:checked');
+    const comentario = document.getElementById("comentarioAvaliacao").value;
+
+    if (!estrelaSelecionada) {
+      alert("Selecione uma quantidade de estrelas.");
+      return;
+    }
+
+    alert(`Avaliação enviada com ${estrelaSelecionada.value} estrela(s).\nComentário: ${comentario}`);
+    // Aqui pode-se salvar a avaliação em localStorage ou enviar para backend se desejar
+  }
+
+  function logout() {
+    localStorage.removeItem("usuarioLogado");
+    location.reload();
+  }
+
+  // Carregar dashboard direto se usuário estiver logado
+  window.onload = () => {
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    if (usuarioLogado) {
+      mostrarDashboard(usuarioLogado);
+    }
+  };
+</script>

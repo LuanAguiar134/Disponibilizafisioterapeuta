@@ -3,205 +3,238 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DisponibilizaFisio — Cadastro / Login</title>
+  <title>DisponibilizaFisio</title>
   <style>
-    /* Reset simples */
-    * { box-sizing: border-box; font-family: Inter, system-ui, Arial, sans-serif; }
-    body {
-      background: #ffffff;
-      color: #222;
-      margin: 0;
-      padding: 40px 12px;
-      display: flex;
-      justify-content: center;
+    :root{
+      --blue:#2f8fe6;
+      --blue-dark:#1f6fc0;
+      --orange:#ff7a00;
+      --purple:#6b2aa8;
+      --card-bg:#fff;
+      --muted:#666;
+    }
+    *{box-sizing:border-box;font-family:Inter, Arial, sans-serif}
+    body{
+      margin:0;
+      background:#f2f4f7;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
     }
 
-    /* Card central */
-    .card {
-      width: 420px;
-      max-width: 96%;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-      padding: 22px;
-      border: 1px solid rgba(0,0,0,0.04);
-    }
-    h1 { text-align: center; margin: 2px 0 14px; font-size: 22px; }
-    label { display:block; font-weight:600; margin-top:10px; font-size:13px; color:#333; }
-    input[type="text"], input[type="email"], input[type="password"], select, textarea {
+    /* top header like screenshot */
+    header{
       width:100%;
-      padding:10px 12px;
-      margin-top:6px;
-      border-radius:6px;
-      border:1px solid rgba(0,0,0,0.12);
-      font-size:14px;
-    }
-    .row { display:flex; gap:10px; }
-    .hidden { display:none !important; }
-
-    .orange-btn {
-      background: #ff7a00;
-      color: #fff;
-      border: none;
-      padding: 10px 14px;
-      border-radius:6px;
-      font-weight:700;
-      cursor:pointer;
-      width:100%;
-      margin-top:12px;
-    }
-    .small-link {
-      display:block;
+      background:var(--blue);
+      color:#fff;
+      padding:22px 12px;
       text-align:center;
-      margin-top:8px;
-      color:#2b6ebd;
-      font-size:13px;
-      text-decoration:underline;
-      cursor:pointer;
     }
-    hr { border: none; border-top:1px solid rgba(0,0,0,0.08); margin:14px 0; }
-
-    /* Dashboard */
-    .dashboard-container h2 { margin:4px 0 6px; font-size:18px; text-align:center; }
-    .info { font-size:14px; margin-bottom:8px; text-align:center; color:#444; }
-
-    .fisio-card, .paciente-card {
-      border:1px solid rgba(0,0,0,0.06);
-      padding:10px 12px;
+    header .logo{
+      width:88px;
+      height:88px;
+      background:#fff;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       border-radius:8px;
       margin-bottom:10px;
     }
-    .fisio-card h4 { margin:4px 0; }
-    .list-item { margin-bottom:8px; padding-bottom:8px; border-bottom:1px dashed rgba(0,0,0,0.04); }
-    .actions { display:flex; gap:8px; margin-top:8px; }
+    header .logo img{ max-width:78px; max-height:78px; display:block; }
+    header h1{ margin:6px 0 4px; font-size:20px; }
+    header p.slogan{ margin:0; opacity:0.95; font-size:13px; }
 
-    /* Avaliação */
-    .avaliacao-container { margin-top: 10px; padding-top:10px; border-top:1px solid rgba(0,0,0,0.06); }
-    .estrelas input[type="radio"] { display: none; }
-    .estrelas label {
-      color: #ccc;
-      font-size: 22px;
-      padding: 0 5px;
-      cursor: pointer;
+    /* central container */
+    .wrap{
+      width:100%;
+      max-width:760px;
+      padding:18px;
     }
+    .card{
+      background:var(--card-bg);
+      border-radius:8px;
+      padding:16px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+
+    /* form styles */
+    label{ display:block; font-weight:600; margin-top:8px; font-size:13px; color:#222;}
+    select, input[type="text"], input[type="email"], input[type="password"], textarea{
+      width:100%; padding:10px 12px; border-radius:6px; border:1px solid rgba(0,0,0,0.1); margin-top:6px; font-size:14px;
+    }
+    .btn{
+      display:inline-block;
+      padding:10px 12px;
+      border-radius:6px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .btn-blue{ background:var(--blue); color:#fff; width:100%; }
+    .btn-purple{ background:var(--purple); color:#fff; width:100%; }
+    .btn-orange{ background:var(--orange); color:#fff; width:100%; }
+    .muted{ color:var(--muted); font-size:13px; }
+
+    .spaced{ margin-top:12px; }
+    .hidden{ display:none !important; }
+
+    /* list items similar to print */
+    .fisio-item{ margin-top:10px; padding:10px; border-radius:6px; background:#fafafa; border:1px solid rgba(0,0,0,0.03); }
+    .fisio-item strong{ display:block; font-size:15px; }
+    .fisio-meta{ font-size:13px; color:var(--muted); margin-top:6px; }
+
+    .actions{ display:flex; gap:10px; margin-top:10px; }
+
+    /* avaliação inline */
+    .avaliacao-box{ margin-top:10px; border-top:1px dashed rgba(0,0,0,0.06); padding-top:10px; }
+    .estrelas input[type="radio"]{ display:none; }
+    .estrelas label{ color:#ccc; font-size:20px; padding:0 4px; cursor:pointer; }
     .estrelas input[type="radio"]:checked ~ label,
     .estrelas label:hover,
-    .estrelas label:hover ~ label {
-      color: gold;
-    }
-    .muted { color:#666; font-size:13px; }
+    .estrelas label:hover ~ label { color:gold; }
 
-    /* Small controls */
-    .inline { display:inline-block; vertical-align:middle; }
-    .chip { display:inline-block; padding:6px 8px; background:#f7f7f7; border-radius:999px; margin:3px; font-size:13px; border:1px solid rgba(0,0,0,0.04); }
-    .edit-btn { background:#eee; border:none; padding:6px 8px; border-radius:6px; cursor:pointer; }
-
-    /* Responsividade */
-    @media (max-width:480px) {
-      body { padding:24px 10px; }
-      .card { padding:16px; }
-    }
+    /* small responsive */
+    @media (max-width:680px){ header h1{ font-size:18px } .wrap{ padding:12px } }
   </style>
 </head>
 <body>
-  <div class="card" id="cadastro">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- substitui 'logo.png' pelo arquivo real quando for subir -->
+      <img src="logo.png" alt="Logo" id="logoHeader">
+    </div>
     <h1>DisponibilizaFisio</h1>
+    <p class="slogan">Seu bem estar mais próximo de você!</p>
+  </header>
 
-    <!-- Form de cadastro -->
-    <form id="formCadastro">
-      <label for="tipoUsuario">Tipo de Usuário</label>
-      <select id="tipoUsuario" required>
-        <option value="paciente">Paciente</option>
-        <option value="fisio">Fisioterapeuta</option>
-      </select>
+  <div class="wrap">
 
-      <label for="nome">Nome</label>
-      <input id="nome" type="text" placeholder="Digite seu nome" required>
+    <!-- CADASTRO / LOGIN CARD -->
+    <div id="cardAuth" class="card">
+      <div id="authForms">
+        <!-- Cadastro -->
+        <div id="cadastroForm">
+          <h3>Cadastro</h3>
+          <form id="formCadastro">
+            <label>Tipo de Usuário</label>
+            <select id="tipoUsuario" required>
+              <option value="paciente">Paciente</option>
+              <option value="fisio">Fisioterapeuta</option>
+            </select>
 
-      <label for="telefone">Telefone</label>
-      <input id="telefone" type="text" placeholder="(XX) XXXXX-XXXX" required>
+            <label>Nome</label>
+            <input id="nome" type="text" placeholder="Digite seu nome" required>
 
-      <!-- Fisio fields -->
-      <div id="enderecoGroup" class="hidden">
-        <label for="endereco">Endereço</label>
-        <input id="endereco" type="text" placeholder="Endereço (opcional)">
+            <label>Telefone</label>
+            <input id="telefone" type="text" placeholder="(XX) XXXXX-XXXX" required>
+
+            <div id="enderecoGroup" class="hidden">
+              <label>Endereço</label>
+              <input id="endereco" type="text" placeholder="Endereço">
+            </div>
+
+            <div id="servicosGroup" class="hidden">
+              <label>Serviços (marque um ou mais)</label>
+              <div id="listaServicos" style="margin-top:6px;"></div>
+              <label style="margin-top:8px">Valor (ex: 80.00)</label>
+              <input id="valorFisio" type="text" placeholder="Valor cobrado (recomendado em R$)">
+            </div>
+
+            <div id="areaPacienteGroup" class="hidden">
+              <label>Área Desejada</label>
+              <select id="areaPaciente">
+              </select>
+            </div>
+
+            <label>Email</label>
+            <input id="email" type="email" placeholder="email@exemplo.com" required>
+
+            <label>Senha</label>
+            <input id="senha" type="password" placeholder="******" required>
+
+            <label>Confirmar Senha</label>
+            <input id="confirmSenha" type="password" placeholder="******" required>
+
+            <div class="spaced">
+              <button class="btn btn-orange" type="submit">Cadastrar</button>
+            </div>
+          </form>
+        </div>
+
+        <hr style="margin:14px 0; border:none; border-top:1px solid rgba(0,0,0,0.06)">
+
+        <!-- Login -->
+        <div id="loginForm">
+          <h3>Login</h3>
+          <label>Email</label>
+          <input id="loginEmail" type="email" placeholder="email@exemplo.com">
+          <label>Senha</label>
+          <input id="loginSenha" type="password" placeholder="******">
+          <div class="spaced">
+            <button class="btn btn-blue" id="btnLogin">Entrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD DO PACIENTE (modelo do print) -->
+    <div id="cardPaciente" class="card hidden">
+      <h3 style="margin:0 0 8px 0;">Buscar Fisioterapeutas</h3>
+
+      <label>Selecione a área de fisioterapia</label>
+      <select id="selectAreaPaciente"></select>
+
+      <div class="spaced">
+        <button class="btn btn-blue" id="btnBuscar">Buscar</button>
       </div>
 
-      <div id="especializacaoGroup" class="hidden">
-        <label for="especializacaoFisio">Selecione suas áreas/serviços (múltipla escolha)</label>
-        <div id="listaServicosFisio" style="margin-top:6px;">
-          <!-- checkboxes geradas por JS -->
+      <div id="listaFisioResults" style="margin-top:12px;"></div>
+
+      <div style="margin-top:12px;">
+        <button class="btn btn-purple" id="btnSairPaciente">Sair</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD DO FISIOTERAPEUTA -->
+    <div id="cardFisio" class="card hidden">
+      <h3>Área do Fisioterapeuta</h3>
+      <p id="infoFisio" class="muted"></p>
+
+      <div id="wrapperServicosEdit" style="margin-top:10px;">
+        <strong>Editar serviços</strong>
+        <div id="editServicos" style="margin-top:8px;"></div>
+        <label style="margin-top:8px">Valor (R$)</label>
+        <input id="editValor" type="text" placeholder="Valor atual">
+        <div style="margin-top:8px;">
+          <button class="btn btn-blue" id="btnSalvarServicos">Salvar</button>
         </div>
       </div>
 
-      <!-- Paciente area -->
-      <div id="areaPacienteGroup" class="hidden">
-        <label for="areaPaciente">Área Desejada</label>
-        <select id="areaPaciente">
-          <!-- options geradas por JS -->
-        </select>
-      </div>
+      <hr style="margin:12px 0">
 
-      <label for="email">Email</label>
-      <input id="email" type="email" placeholder="email@exemplo.com" required>
+      <h4>Pacientes que solicitaram atendimento</h4>
+      <div id="listaSolicitacoes" style="margin-top:8px;"></div>
 
-      <label for="senha">Senha</label>
-      <input id="senha" type="password" placeholder="******" required>
+      <hr style="margin:12px 0">
 
-      <label for="confirmSenha">Confirmar Senha</label>
-      <input id="confirmSenha" type="password" placeholder="******" required>
+      <h4>Avaliações recebidas</h4>
+      <div id="listaAvaliacoesFisio" style="margin-top:8px;"></div>
 
-      <button class="orange-btn" type="submit">Cadastrar</button>
-    </form>
-
-    <hr>
-
-    <!-- Login -->
-    <label for="loginEmail">Email</label>
-    <input id="loginEmail" type="email" placeholder="email@exemplo.com">
-
-    <label for="loginSenha">Senha</label>
-    <input id="loginSenha" type="password" placeholder="******">
-
-    <button class="orange-btn" id="btnLogin">Entrar</button>
-
-    <a class="small-link" id="esqueci">Esqueceu a senha?</a>
-  </div>
-
-  <!-- Dashboard (visível após login) -->
-  <div class="card hidden" id="dashboard">
-    <h2>Bem-vindo(a), <span id="nomeUsuario"></span></h2>
-    <p class="info"><strong>Tipo:</strong> <span id="tipoUsuarioDash"></span></p>
-    <p class="muted" id="infoExtraDash"></p>
-
-    <div id="conteudoDinamico"></div>
-
-    <!-- Avaliação reusável (aparece na tela do paciente quando visualiza um fisioterapeuta) -->
-    <div class="avaliacao-container hidden" id="avaliacaoContainer">
-      <h3>Avaliar Fisioterapeuta</h3>
-      <div class="estrelas" id="estrelasWrapper">
-        <input type="radio" name="estrela" id="estrela5" value="5"><label for="estrela5">★</label>
-        <input type="radio" name="estrela" id="estrela4" value="4"><label for="estrela4">★</label>
-        <input type="radio" name="estrela" id="estrela3" value="3"><label for="estrela3">★</label>
-        <input type="radio" name="estrela" id="estrela2" value="2"><label for="estrela2">★</label>
-        <input type="radio" name="estrela" id="estrela1" value="1"><label for="estrela1">★</label>
-      </div>
-      <textarea id="comentarioAvaliacao" rows="3" style="width:100%; margin-top:8px;" placeholder="Deixe um comentário..."></textarea>
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button class="orange-btn" id="btnEnviarAvaliacao" style="flex:1">Enviar Avaliação</button>
-        <button class="edit-btn" id="btnCancelarAvaliacao">Cancelar</button>
+      <div style="margin-top:12px;">
+        <button class="btn btn-purple" id="btnSairFisio">Sair</button>
       </div>
     </div>
 
-    <div style="margin-top:12px;">
-      <button class="orange-btn" id="btnLogout">Sair</button>
-    </div>
   </div>
 
   <script>
-    /***********************
-     * Dados e utilitários
-     ***********************/
+    /* ==========================
+       Dados e utilitários
+       ========================== */
     const AREAS = [
       "Acupuntura","Aquática","Cardiovascular","Dermatofuncional","Desportiva",
       "Do Trabalho","Gerontologia","Neurofuncional","Oncologia","Reumatologia",
@@ -209,533 +242,438 @@
       "Osteopatia","Quiropraxia"
     ];
 
-    function gerarId() {
-      return 'id_' + Math.random().toString(36).slice(2,9);
-    }
+    function gerarId(){ return 'id_' + Math.random().toString(36).slice(2,9); }
+    function getUsuarios(){ try{ return JSON.parse(localStorage.getItem('usuarios')) || []; }catch(e){return [];} }
+    function setUsuarios(u){ localStorage.setItem('usuarios', JSON.stringify(u)); localStorage.setItem('usuarios_update_ts', Date.now().toString()); }
+    function getUsuarioLogado(){ try{ return JSON.parse(localStorage.getItem('usuarioLogado')); }catch(e){return null;} }
+    function setUsuarioLogado(u){ localStorage.setItem('usuarioLogado', JSON.stringify(u)); localStorage.setItem('usuarioLogado_update_ts', Date.now().toString()); }
 
-    function getUsuarios() {
-      try { return JSON.parse(localStorage.getItem('usuarios')) || []; }
-      catch(e){ return []; }
-    }
-    function setUsuarios(u) {
-      localStorage.setItem('usuarios', JSON.stringify(u));
-      // também grava um timestamp para forçar storage event se necessário
-      localStorage.setItem('usuarios_update_ts', Date.now().toString());
-    }
-    function salvarUsuarioLogado(u) {
-      localStorage.setItem('usuarioLogado', JSON.stringify(u));
-      localStorage.setItem('usuarioLogado_update_ts', Date.now().toString());
-    }
-    function pegarUsuarioLogado() {
-      try { return JSON.parse(localStorage.getItem('usuarioLogado')); }
-      catch(e){ return null; }
-    }
-
-    /***********************
-     * Inicialização UI
-     ***********************/
+    /* ==========================
+       Elementos
+       ========================== */
     const tipoUsuario = document.getElementById('tipoUsuario');
     const enderecoGroup = document.getElementById('enderecoGroup');
-    const especializacaoGroup = document.getElementById('especializacaoGroup');
+    const servicosGroup = document.getElementById('servicosGroup');
+    const listaServicos = document.getElementById('listaServicos');
     const areaPacienteGroup = document.getElementById('areaPacienteGroup');
-    const listaServicosFisio = document.getElementById('listaServicosFisio');
-    const areaPacienteSelect = document.getElementById('areaPaciente');
+    const areaPaciente = document.getElementById('areaPaciente');
+    const selectAreaPaciente = document.getElementById('selectAreaPaciente');
 
-    // Preenche lista de áreas para fisio (checkboxes) e para paciente (select)
-    function montarOpcoesAreas() {
-      // fisio: checkboxes
-      listaServicosFisio.innerHTML = '';
-      AREAS.forEach(a => {
-        const wrapper = document.createElement('div');
-        wrapper.style.marginBottom = '6px';
-        wrapper.innerHTML = `<label style="font-weight:500;"><input type="checkbox" value="${a}" class="chkServico"> <span style="margin-left:8px;">${a}</span></label>`;
-        listaServicosFisio.appendChild(wrapper);
+    const formCadastro = document.getElementById('formCadastro');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnBuscar = document.getElementById('btnBuscar');
+
+    const cardAuth = document.getElementById('cardAuth');
+    const cardPaciente = document.getElementById('cardPaciente');
+    const cardFisio = document.getElementById('cardFisio');
+
+    const listaFisioResults = document.getElementById('listaFisioResults');
+    const btnSairPaciente = document.getElementById('btnSairPaciente');
+    const btnSairFisio = document.getElementById('btnSairFisio');
+
+    const infoFisio = document.getElementById('infoFisio');
+    const editServicos = document.getElementById('editServicos');
+    const btnSalvarServicos = document.getElementById('btnSalvarServicos');
+    const editValor = document.getElementById('editValor');
+
+    const listaSolicitacoes = document.getElementById('listaSolicitacoes');
+    const listaAvaliacoesFisio = document.getElementById('listaAvaliacoesFisio');
+
+    /* ==========================
+       Inicialização UI
+       ========================== */
+    function montarOpcoes(){
+      // para cadastro do fisio: checkboxes
+      listaServicos.innerHTML = '';
+      AREAS.forEach(a=>{
+        const id = 'chk_' + a.replace(/\s+/g,'_');
+        const div = document.createElement('div');
+        div.innerHTML = `<label style="font-weight:500;"><input type="checkbox" value="${a}" class="chkSrv"> <span style="margin-left:8px">${a}</span></label>`;
+        listaServicos.appendChild(div);
       });
 
-      // paciente select
-      areaPacienteSelect.innerHTML = '';
-      AREAS.forEach(a => {
-        const opt = document.createElement('option');
-        opt.value = a;
-        opt.textContent = a;
-        areaPacienteSelect.appendChild(opt);
-      });
+      // area paciente select
+      areaPaciente.innerHTML = `<option value="">Selecione a área</option>` + AREAS.map(a=>`<option value="${a}">${a}</option>`).join('');
+      selectAreaPaciente.innerHTML = `<option value="">Selecione...</option>` + AREAS.map(a=>`<option value="${a}">${a}</option>`).join('');
+
+      // edit servicos area (for fisio dashboard)
+      editServicos.innerHTML = AREAS.map(a=>`<label style="display:inline-block; margin:4px;"><input type="checkbox" class="editSrvChk" value="${a}"> <span style="margin-left:6px">${a}</span></label>`).join('');
     }
-    montarOpcoesAreas();
+    montarOpcoes();
 
-    // toggles de visibilidade conforme tipo selecionado
-    tipoUsuario.addEventListener('change', () => {
-      const tipo = tipoUsuario.value;
-      enderecoGroup.classList.toggle('hidden', tipo !== 'fisio');
-      especializacaoGroup.classList.toggle('hidden', tipo !== 'fisio');
-      areaPacienteGroup.classList.toggle('hidden', tipo !== 'paciente');
+    // toggle campos por tipo
+    tipoUsuario.addEventListener('change', ()=>{
+      const t = tipoUsuario.value;
+      enderecoGroup.classList.toggle('hidden', t !== 'fisio');
+      servicosGroup.classList.toggle('hidden', t !== 'fisio');
+      areaPacienteGroup.classList.toggle('hidden', t !== 'paciente');
     });
 
-    /***********************
-     * Cadastro
-     ***********************/
-    const formCadastro = document.getElementById('formCadastro');
-    formCadastro.addEventListener('submit', (e) => {
+    /* ==========================
+       CADASTRO
+       ========================== */
+    formCadastro.addEventListener('submit', (e)=>{
       e.preventDefault();
       const nome = document.getElementById('nome').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
-      const endereco = document.getElementById('endereco').value.trim();
       const email = document.getElementById('email').value.trim().toLowerCase();
       const senha = document.getElementById('senha').value;
       const confirmSenha = document.getElementById('confirmSenha').value;
-      const tipo = document.getElementById('tipoUsuario').value;
+      const tipo = tipoUsuario.value;
 
-      if (!nome || !telefone || !email || !senha) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
-      }
-      if (senha !== confirmSenha) {
-        alert('Senhas não conferem.');
-        return;
-      }
+      if(!nome || !telefone || !email || !senha) return alert('Preencha os campos obrigatórios.');
+      if(senha !== confirmSenha) return alert('Senhas não conferem.');
 
       const usuarios = getUsuarios();
-      if (usuarios.some(u => u.email === email)) {
-        alert('Já existe uma conta com esse email.');
-        return;
-      }
+      if(usuarios.some(u=>u.email===email)) return alert('Já existe conta com esse email.');
 
       const novo = {
         id: gerarId(),
-        nome,
-        telefone,
-        email,
-        senha,
-        tipo,
+        nome, telefone, email, senha, tipo,
         criadoEm: new Date().toISOString(),
-        // campos específicos
-        endereco: tipo === 'fisio' ? endereco : '',
-        servicos: tipo === 'fisio' ? Array.from(document.querySelectorAll('.chkServico:checked')).map(c => c.value) : [],
+        // fisio-specific:
+        endereco: tipo === 'fisio' ? document.getElementById('endereco').value.trim() : '',
+        servicos: tipo === 'fisio' ? Array.from(document.querySelectorAll('.chkSrv:checked')).map(c=>c.value) : [],
+        valor: tipo === 'fisio' ? (document.getElementById('valorFisio').value.trim() || '') : '',
+        // paciente-specific:
         areaDesejada: tipo === 'paciente' ? document.getElementById('areaPaciente').value : '',
-        // estruturas para relacionamentos/ratings
-        solicitacoes: [], // para fisioterapeuta: lista de {pacienteId, pacienteNome, telefone, area, data}
-        avaliacoes: [] // para fisioterapeuta: lista de {nota, comentario, pacienteId, pacienteNome, data}
+        // relations
+        solicitacoes: [], // [{pacienteId, pacienteNome, telefone, area, data}]
+        avaliacoes: [] // [{nota, comentario, pacienteId, pacienteNome, data}]
       };
 
       usuarios.push(novo);
       setUsuarios(usuarios);
-      salvarUsuarioLogado(novo);
-      // mostrar dashboard imediatamente
+      setUsuarioLogado(novo);
+      alert('Cadastro realizado com sucesso!');
       mostrarDashboard(novo);
-
-      // se for fisioterapeuta, avisar que foi cadastrado e pacientes em outras abas serão atualizados via storage event
-      alert(`Cadastro realizado com sucesso como ${tipo === 'fisio' ? 'Fisioterapeuta' : 'Paciente'}!`);
     });
 
-    /***********************
-     * Login
-     ***********************/
-    const btnLogin = document.getElementById('btnLogin');
-    btnLogin.addEventListener('click', () => {
+    /* ==========================
+       LOGIN
+       ========================== */
+    btnLogin.addEventListener('click', ()=>{
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const senha = document.getElementById('loginSenha').value;
       const usuarios = getUsuarios();
-      const user = usuarios.find(u => u.email === email && u.senha === senha);
-      if (!user) {
-        alert('Email ou senha inválidos.');
-        return;
-      }
-      salvarUsuarioLogado(user);
+      const user = usuarios.find(u=>u.email===email && u.senha===senha);
+      if(!user) return alert('Email ou senha incorretos.');
+      setUsuarioLogado(user);
       mostrarDashboard(user);
     });
 
-    /***********************
-     * Dashboard
-     ***********************/
-    const cardCadastro = document.getElementById('cadastro');
-    const dashboard = document.getElementById('dashboard');
-    const nomeUsuarioSpan = document.getElementById('nomeUsuario');
-    const tipoUsuarioDash = document.getElementById('tipoUsuarioDash');
-    const infoExtraDash = document.getElementById('infoExtraDash');
-    const conteudoDinamico = document.getElementById('conteudoDinamico');
-    const avaliacaoContainer = document.getElementById('avaliacaoContainer');
-    const comentarioAvaliacao = document.getElementById('comentarioAvaliacao');
-    const btnEnviarAvaliacao = document.getElementById('btnEnviarAvaliacao');
-    const btnCancelarAvaliacao = document.getElementById('btnCancelarAvaliacao');
-
-    let fisioterapeutaVisualizando = null; // id do fisio que paciente está avaliando
-
-    function mostrarDashboard(usuario) {
-      cardCadastro.classList.add('hidden');
-      dashboard.classList.remove('hidden');
-      nomeUsuarioSpan.textContent = usuario.nome;
-      tipoUsuarioDash.textContent = usuario.tipo === 'fisio' ? 'Fisioterapeuta' : 'Paciente';
-      avaliacaoContainer.classList.add('hidden');
-      comentarioAvaliacao.value = '';
-
-      if (usuario.tipo === 'fisio') {
-        infoExtraDash.innerHTML = `<strong>Serviços:</strong> ${usuario.servicos && usuario.servicos.length ? usuario.servicos.join(', ') : 'Nenhum cadastrado'}<br><strong>Endereço:</strong> ${usuario.endereco || 'Não informado'}`;
-        renderFisioDashboard(usuario);
+    /* ==========================
+       DASHBOARD mostrar
+       ========================== */
+    function mostrarDashboard(user){
+      cardAuth.classList.add('hidden');
+      listaFisioResults.innerHTML = '';
+      if(user.tipo === 'paciente'){
+        cardFisio.classList.add('hidden');
+        cardPaciente.classList.remove('hidden');
+        // pre-seleciona a area do paciente se tiver
+        if(user.areaDesejada) selectAreaPaciente.value = user.areaDesejada;
+        else selectAreaPaciente.value = '';
+        // atualizar lista conforme area atual (se quiser já listar)
+        // render lista vazia até buscar
+        listaFisioResults.innerHTML = '';
       } else {
-        infoExtraDash.innerHTML = `<strong>Área desejada:</strong> ${usuario.areaDesejada || 'Não informada'}`;
-        renderPacienteDashboard(usuario);
+        // fisio
+        cardPaciente.classList.add('hidden');
+        cardFisio.classList.remove('hidden');
+        renderFisioDashboard(user);
       }
     }
 
-    // Render paciente: lista fisioterapeutas da área + controlar solicitações e avaliações
-    function renderPacienteDashboard(paciente) {
+    /* ==========================
+       PACIENTE: Buscar e listar
+       ========================== */
+    btnBuscar.addEventListener('click', ()=>{
+      const area = selectAreaPaciente.value;
+      if(!area) return alert('Escolha uma área.');
+      // atualizar paciente logado areaDesejada
+      const user = getUsuarioLogado();
+      if(user && user.tipo === 'paciente'){
+        // persiste a area escolhida para o paciente
+        const usuarios = getUsuarios();
+        const idx = usuarios.findIndex(u=>u.id===user.id);
+        if(idx>=0){ usuarios[idx].areaDesejada = area; setUsuarios(usuarios); setUsuarioLogado(usuarios[idx]); }
+      }
+      listarFisioterapeutas(area);
+    });
+
+    function listarFisioterapeutas(area){
+      listaFisioResults.innerHTML = '';
       const usuarios = getUsuarios();
-      const area = paciente.areaDesejada;
-      let html = '';
-      // permite trocar de area
-      html += `<div style="margin-bottom:10px;"><strong>Alterar área desejada:</strong><div style="display:flex; gap:8px; margin-top:6px;">
-        <select id="trocaAreaSelect" style="flex:1;">${AREAS.map(a=>`<option value="${a}" ${a===area?'selected':''}>${a}</option>`).join('')}</select>
-        <button class="edit-btn" id="btnSalvarArea">Salvar</button>
-      </div></div>`;
-
-      // listar fisioterapeutas que tenham serviço na área
-      const fisios = usuarios.filter(u => u.tipo === 'fisio' && u.servicos && u.servicos.includes(area));
-      html += `<h3>Fisioterapeutas disponíveis para: <em>${area || '—'}</em></h3>`;
-      if (!fisios.length) {
-        html += `<p class="muted">Nenhum fisioterapeuta encontrado nesta área.</p>`;
-      } else {
-        fisios.forEach(f => {
-          const media = calcularMediaAvaliacoes(f.avaliacoes);
-          html += `<div class="fisio-card list-item">
-            <h4>${f.nome}</h4>
-            <div class="muted">Serviços: ${f.servicos.join(', ')}</div>
-            <div class="muted">Endereço: ${f.endereco || 'Não informado'}</div>
-            <div style="margin-top:8px;"><strong>Avaliação:</strong> ${media.mediaFormat}</div>
-            <div class="actions">
-              <button class="orange-btn" onclick="solicitarAtendimento('${f.id}')">Solicitar Atendimento</button>
-              <button class="edit-btn" onclick="verPerfilFisio('${f.id}')">Ver Perfil / Avaliar</button>
-            </div>
-          </div>`;
-        });
-      }
-      conteudoDinamico.innerHTML = html;
-
-      // eventos dinâmicos
-      const btnSalvarArea = document.getElementById('btnSalvarArea');
-      if (btnSalvarArea) {
-        btnSalvarArea.addEventListener('click', () => {
-          const novoArea = document.getElementById('trocaAreaSelect').value;
-          if (!novoArea) return;
-          // atualizar paciente na storage
-          const usuariosAll = getUsuarios();
-          const idx = usuariosAll.findIndex(u => u.email === paciente.email);
-          if (idx >= 0) {
-            usuariosAll[idx].areaDesejada = novoArea;
-            setUsuarios(usuariosAll);
-            salvarUsuarioLogado(usuariosAll[idx]);
-            mostrarDashboard(usuariosAll[idx]);
-            alert('Área alterada com sucesso.');
-          }
-        });
-      }
-    }
-
-    // Render fisioterapeuta: ver solicitações (apenas pacientes que solicitaram) + editar serviços
-    function renderFisioDashboard(fisio) {
-      const usuarios = getUsuarios();
-      // garantir que fisio é a versão atualizada do storage
-      const fisioAtual = usuarios.find(u => u.id === fisio.id) || fisio;
-      let html = '';
-
-      // botão editar serviços
-      html += `<div style="margin-bottom:10px;">
-        <strong>Editar seus serviços:</strong>
-        <div style="margin-top:8px;" id="editarServicosWrapper">${AREAS.map(a=>{
-          const checked = (fisioAtual.servicos || []).includes(a) ? 'checked' : '';
-          return `<label style="display:inline-block; margin:4px;"><input type="checkbox" class="editServicoChk" value="${a}" ${checked}> <span style="margin-left:6px;">${a}</span></label>`;
-        }).join('')}</div>
-        <div style="margin-top:8px;"><button class="edit-btn" id="btnSalvarServicos">Salvar Serviços</button></div>
-      </div>`;
-
-      // lista de solicitações
-      html += `<h3>Pacientes que solicitaram atendimento</h3>`;
-      if (!fisioAtual.solicitacoes || !fisioAtual.solicitacoes.length) {
-        html += `<p class="muted">Nenhum paciente solicitou atendimento ainda.</p>`;
-      } else {
-        fisioAtual.solicitacoes.forEach(s => {
-          html += `<div class="paciente-card list-item">
-            <div><strong>${s.pacienteNome}</strong> <span class="muted">(${s.area})</span></div>
-            <div class="muted">Telefone: ${s.telefone || 'Não informado'}</div>
-            <div style="margin-top:8px;">
-              <button class="edit-btn" onclick="marcarComoAtendido('${fisioAtual.id}','${s.pacienteId}')">Marcar como atendido</button>
-            </div>
-          </div>`;
-        });
-      }
-
-      // avaliações recebidas
-      html += `<h3 style="margin-top:10px;">Avaliações recebidas</h3>`;
-      if (!fisioAtual.avaliacoes || !fisioAtual.avaliacoes.length) {
-        html += `<p class="muted">Nenhuma avaliação ainda.</p>`;
-      } else {
-        fisioAtual.avaliacoes.slice().reverse().forEach(a => {
-          html += `<div class="list-item">
-            <div><strong>${a.pacienteNome}</strong> — ${a.nota}★ <span class="muted">(${new Date(a.data).toLocaleString()})</span></div>
-            ${a.comentario ? `<div style="margin-top:6px;">${a.comentario}</div>` : ''}
-          </div>`;
-        });
-      }
-
-      conteudoDinamico.innerHTML = html;
-
-      // eventos
-      const btnSalvarServicos = document.getElementById('btnSalvarServicos');
-      if (btnSalvarServicos) {
-        btnSalvarServicos.addEventListener('click', () => {
-          const selecionadas = Array.from(document.querySelectorAll('.editServicoChk:checked')).map(c=>c.value);
-          const usuariosAll = getUsuarios();
-          const idx = usuariosAll.findIndex(u => u.id === fisioAtual.id);
-          if (idx >= 0) {
-            usuariosAll[idx].servicos = selecionadas;
-            setUsuarios(usuariosAll);
-            salvarUsuarioLogado(usuariosAll[idx]);
-            mostrarDashboard(usuariosAll[idx]);
-            alert('Serviços atualizados.');
-          }
-        });
-      }
-    }
-
-    function calcularMediaAvaliacoes(avaliacoes) {
-      if (!avaliacoes || !avaliacoes.length) return {media:0, mediaFormat: 'Sem avaliações'};
-      const soma = avaliacoes.reduce((s,a) => s + Number(a.nota), 0);
-      const media = soma / avaliacoes.length;
-      return {media, mediaFormat: `${media.toFixed(1)} (${avaliacoes.length} avaliação${avaliacoes.length>1?'es':''})`};
-    }
-
-    /***********************
-     * Solicitação e perfil do fisio
-     ***********************/
-    window.solicitarAtendimento = function(fisioId) {
-      const usuarioLogado = pegarUsuarioLogado();
-      if (!usuarioLogado || usuarioLogado.tipo !== 'paciente') {
-        alert('Apenas pacientes podem solicitar atendimento.');
+      const fisios = usuarios.filter(u=>u.tipo==='fisio' && u.servicos && u.servicos.includes(area));
+      if(!fisios.length){
+        listaFisioResults.innerHTML = '<p class="muted">Nenhum fisioterapeuta disponível nesta área no momento.</p>';
         return;
       }
+      // montar lista
+      fisios.forEach(f=>{
+        const item = document.createElement('div');
+        item.className = 'fisio-item';
+        const precoFormat = f.valor ? ` (R$ ${Number(String(f.valor).replace(',','.')).toFixed(2)})` : '';
+        item.innerHTML = `<strong>${f.nome} - ${f.telefone}${precoFormat} <span style="font-weight:600; margin-left:8px">[${f.servicos.join(', ')}]</span></strong>
+                          <div class="fisio-meta">${f.endereco ? f.endereco + ' · ' : ''}${f.email}</div>
+                          <div class="actions">
+                            <button class="btn btn-blue" onclick="solicitarAtendimento('${f.id}')">Solicitar Atendimento</button>
+                            <button class="btn btn-orange" onclick="abrirAvaliacaoInline('${f.id}', this)">Avaliar</button>
+                          </div>
+                          <div id="avaliacao_box_${f.id}" class="avaliacao-box hidden"></div>`;
+        listaFisioResults.appendChild(item);
+
+        // se paciente já solicitou, pode avaliar — mostramos mensagem para avaliar
+        const usuarioLogado = getUsuarioLogado();
+        if(usuarioLogado && usuarioLogado.tipo === 'paciente'){
+          const jaSolicitou = (f.solicitacoes || []).some(s=>s.pacienteId === usuarioLogado.id);
+          const avalBox = item.querySelector(`#avaliacao_box_${f.id}`);
+          if(jaSolicitou){
+            // opcional: auto mostrar avaliação area (mas vamos manter oculta até clicar Avaliar)
+            // avalBox.classList.remove('hidden');
+          } else {
+            // bloqueia avaliar até solicitar: alterar botão Avaliar para aviso ao clicar
+            // handled in abrirAvaliacaoInline
+          }
+        }
+      });
+    }
+
+    /* ==========================
+       Solicitação atendimento
+       ========================== */
+    window.solicitarAtendimento = function(fisioId){
+      const user = getUsuarioLogado();
+      if(!user || user.tipo !== 'paciente') return alert('Apenas pacientes podem solicitar atendimento.');
       const usuarios = getUsuarios();
-      const idxF = usuarios.findIndex(u => u.id === fisioId);
-      if (idxF < 0) return alert('Fisioterapeuta não encontrado.');
+      const idxF = usuarios.findIndex(u=>u.id===fisioId);
+      if(idxF < 0) return alert('Fisioterapeuta não encontrado.');
 
       // verifica se já solicitou
-      const ja = usuarios[idxF].solicitacoes && usuarios[idxF].solicitacoes.some(s => s.pacienteId === usuarioLogado.id);
-      if (ja) {
-        return alert('Você já solicitou atendimento a este fisioterapeuta.');
-      }
-      // adiciona solicitação
+      const ja = (usuarios[idxF].solicitacoes || []).some(s => s.pacienteId === user.id);
+      if(ja) return alert('Você já solicitou atendimento a este fisioterapeuta.');
+
       const sol = {
-        pacienteId: usuarioLogado.id,
-        pacienteNome: usuarioLogado.nome,
-        telefone: usuarioLogado.telefone,
-        area: usuarioLogado.areaDesejada || 'Não informada',
+        pacienteId: user.id,
+        pacienteNome: user.nome,
+        telefone: user.telefone,
+        area: user.areaDesejada || selectAreaPaciente.value || 'Não informada',
         data: new Date().toISOString()
       };
       usuarios[idxF].solicitacoes = usuarios[idxF].solicitacoes || [];
       usuarios[idxF].solicitacoes.push(sol);
       setUsuarios(usuarios);
-      alert('Solicitação enviada com sucesso. O fisioterapeuta poderá ver seus dados de contato.');
-      // atualizar estado local (usuarioLogado permanece o mesmo paciente)
-      // re-load do usuário logado para pegar possíveis atualizações
-      const usuariosAll = getUsuarios();
-      const atualPaciente = usuariosAll.find(u=>u.id===usuarioLogado.id) || usuarioLogado;
-      salvarUsuarioLogado(atualPaciente);
-      mostrarDashboard(atualPaciente);
+      alert('Solicitação enviada com sucesso. Agora você pode avaliar após o atendimento.');
+      // re-render a lista para atualizar estado dos botões
+      const area = selectAreaPaciente.value || user.areaDesejada;
+      if(area) listarFisioterapeutas(area);
     };
 
-    // mostrar perfil e preparar avaliação
-    window.verPerfilFisio = function(fisioId) {
-      const usuarioLogado = pegarUsuarioLogado();
+    /* ==========================
+       Avaliação inline (no card paciente)
+       ========================== */
+    window.abrirAvaliacaoInline = function(fisioId, btnEl){
+      const usuario = getUsuarioLogado();
+      if(!usuario || usuario.tipo !== 'paciente') return alert('Apenas pacientes podem avaliar.');
       const usuarios = getUsuarios();
-      const f = usuarios.find(u => u.id === fisioId);
-      if (!f) return alert('Fisioterapeuta não encontrado.');
+      const f = usuarios.find(u=>u.id===fisioId);
+      if(!f) return alert('Fisioterapeuta não encontrado.');
 
-      // render detalhado no conteudoDinamico
-      let html = `<div class="fisio-card">
-        <h3>${f.nome}</h3>
-        <div class="muted">Serviços: ${f.servicos.join(', ')}</div>
-        <div class="muted">Endereço: ${f.endereco || 'Não informado'}</div>
-        <div style="margin-top:8px;"><strong>Avaliação:</strong> ${calcularMediaAvaliacoes(f.avaliacoes).mediaFormat}</div>
-        <div style="margin-top:8px;"><strong>Comentários:</strong></div>
-        <div style="margin-top:8px;">${(f.avaliacoes && f.avaliacoes.length) ? f.avaliacoes.map(a => `<div style="margin-bottom:8px;"><strong>${a.pacienteNome}</strong> — ${a.nota}★<div style="font-size:13px;color:#444;">${a.comentario || ''}</div><div class="muted" style="font-size:12px;">${new Date(a.data).toLocaleString()}</div></div>`).join('') : '<div class="muted">Nenhum comentário ainda.</div>'}</div>
-      </div>`;
-
-      // se paciente logado, mostrar botão para avaliar (somente se já solicitou ao fisio)
-      if (usuarioLogado && usuarioLogado.tipo === 'paciente') {
-        const jaSolicitou = f.solicitacoes && f.solicitacoes.some(s => s.pacienteId === usuarioLogado.id);
-        html += `<div style="margin-top:10px;">${jaSolicitou ? `<div class="muted">Você já solicitou atendimento a este fisioterapeuta e pode avaliá-lo.</div><div style="margin-top:8px;"><button class="orange-btn" id="btnAbrirAvaliacao">Avaliar ${f.nome}</button></div>` : `<div class="muted">Para avaliar, primeiro solicite atendimento.</div>`}</div>`;
+      // verifica se paciente solicitou atendimento antes de permitir avaliação
+      const jaSolicitou = (f.solicitacoes || []).some(s => s.pacienteId === usuario.id);
+      if(!jaSolicitou){
+        // perguntar se quer solicitar agora
+        if(confirm('Você ainda não solicitou atendimento a este profissional. Deseja solicitar agora antes de avaliar?')){
+          solicitarAtendimento(fisioId);
+        } else {
+          return;
+        }
       }
-      conteudoDinamico.innerHTML = html;
 
-      // preparar avaliação se botão existe
-      const btnAbrir = document.getElementById('btnAbrirAvaliacao');
-      if (btnAbrir) {
-        btnAbrir.addEventListener('click', () => {
-          fisioterapeutaVisualizando = f.id;
-          avaliacaoContainer.classList.remove('hidden');
-          // desmarcar estrelas
-          Array.from(document.querySelectorAll('input[name="estrela"]')).forEach(i => i.checked = false);
-          comentarioAvaliacao.value = '';
-        });
-      }
+      const box = document.getElementById(`avaliacao_box_${fisioId}`);
+      // montar formulário de avaliação
+      box.innerHTML = `
+        <div style="font-weight:600; margin-bottom:6px;">Avaliar ${f.nome}</div>
+        <div class="estrelas" style="display:flex; flex-direction:row-reverse; justify-content:flex-start;">
+          <input type="radio" name="estrela_${fisioId}" id="estrela_${fisioId}_5" value="5"><label for="estrela_${fisioId}_5">★</label>
+          <input type="radio" name="estrela_${fisioId}" id="estrela_${fisioId}_4" value="4"><label for="estrela_${fisioId}_4">★</label>
+          <input type="radio" name="estrela_${fisioId}" id="estrela_${fisioId}_3" value="3"><label for="estrela_${fisioId}_3">★</label>
+          <input type="radio" name="estrela_${fisioId}" id="estrela_${fisioId}_2" value="2"><label for="estrela_${fisioId}_2">★</label>
+          <input type="radio" name="estrela_${fisioId}" id="estrela_${fisioId}_1" value="1"><label for="estrela_${fisioId}_1">★</label>
+        </div>
+        <textarea id="comentario_${fisioId}" rows="3" style="width:100%; margin-top:8px;" placeholder="Deixe um comentário..."></textarea>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn btn-orange" onclick="enviarAvaliacao('${fisioId}')">Enviar Avaliação</button>
+          <button class="btn btn-purple" onclick="fecharAvaliacao('${fisioId}')">Fechar</button>
+        </div>
+      `;
+      box.classList.remove('hidden');
+      // scroll to box for better UX on mobile
+      box.scrollIntoView({behavior:'smooth', block:'center'});
     };
 
-    // enviar avaliação
-    btnEnviarAvaliacao.addEventListener('click', () => {
-      const usuarioLogado = pegarUsuarioLogado();
-      if (!usuarioLogado || usuarioLogado.tipo !== 'paciente') {
-        alert('Apenas pacientes podem avaliar.');
-        return;
-      }
-      const notaInput = document.querySelector('input[name="estrela"]:checked');
-      if (!notaInput) return alert('Selecione uma quantidade de estrelas.');
+    window.fecharAvaliacao = function(fisioId){
+      const box = document.getElementById(`avaliacao_box_${fisioId}`);
+      if(box){ box.classList.add('hidden'); box.innerHTML = ''; }
+    };
+
+    window.enviarAvaliacao = function(fisioId){
+      const usuario = getUsuarioLogado();
+      if(!usuario || usuario.tipo !== 'paciente') return alert('Apenas pacientes podem avaliar.');
+      const notaInput = document.querySelector(`input[name="estrela_${fisioId}"]:checked`);
+      if(!notaInput) return alert('Selecione a quantidade de estrelas.');
       const nota = Number(notaInput.value);
-      const comentario = comentarioAvaliacao.value.trim();
+      const comentario = document.getElementById(`comentario_${fisioId}`).value.trim();
 
       const usuarios = getUsuarios();
-      const idxF = usuarios.findIndex(u => u && u.id === fisioterapeutaVisualizando);
-      if (idxF < 0) return alert('Fisioterapeuta não encontrado.');
+      const idxF = usuarios.findIndex(u=>u.id===fisioId);
+      if(idxF < 0) return alert('Fisioterapeuta não encontrado.');
 
-      // verificar se paciente solicitou atendimento (só pode avaliar se solicitou)
+      // checar se paciente já solicitou (requisito)
       const f = usuarios[idxF];
-      const solicitou = f.solicitacoes && f.solicitacoes.some(s => s.pacienteId === usuarioLogado.id);
-      if (!solicitou) return alert('Somente pacientes que solicitaram atendimento podem avaliar este fisioterapeuta.');
+      const solicitou = (f.solicitacoes || []).some(s => s.pacienteId === usuario.id);
+      if(!solicitou) return alert('Somente pacientes que solicitaram atendimento podem avaliar.');
 
-      // adicionar avaliação
       const aval = {
-        nota,
-        comentario,
-        pacienteId: usuarioLogado.id,
-        pacienteNome: usuarioLogado.nome,
-        data: new Date().toISOString()
+        nota, comentario, pacienteId: usuario.id, pacienteNome: usuario.nome, data: new Date().toISOString()
       };
       usuarios[idxF].avaliacoes = usuarios[idxF].avaliacoes || [];
       usuarios[idxF].avaliacoes.push(aval);
       setUsuarios(usuarios);
-      alert('Avaliação enviada — obrigada!');
-      avaliacaoContainer.classList.add('hidden');
-      comentarioAvaliacao.value = '';
-      // atualizar visual
-      // se paciente logado, recarrega dashboard do paciente
-      const atualPaciente = getUsuarios().find(u=>u.id===usuarioLogado.id) || usuarioLogado;
-      salvarUsuarioLogado(atualPaciente);
-      mostrarDashboard(atualPaciente);
-    });
-
-    btnCancelarAvaliacao.addEventListener('click', () => {
-      avaliacaoContainer.classList.add('hidden');
-      fisioterapeutaVisualizando = null;
-      comentarioAvaliacao.value = '';
-    });
-
-    // marcar atendimento como atendido (remover solicitação)
-    window.marcarComoAtendido = function(fisioId, pacienteId) {
-      const usuarios = getUsuarios();
-      const idxF = usuarios.findIndex(u => u.id === fisioId);
-      if (idxF < 0) return alert('Fisioterapeuta não encontrado.');
-      const fisio = usuarios[idxF];
-      fisio.solicitacoes = (fisio.solicitacoes || []).filter(s => s.pacienteId !== pacienteId);
-      setUsuarios(usuarios);
-      // atualizar usuário logado caso seja o fisio
-      const log = pegarUsuarioLogado();
-      if (log && log.id === fisioId) {
-        const upt = usuarios.find(u=>u.id===log.id);
-        if (upt) salvarUsuarioLogado(upt);
-      }
-      mostraAtualUsuarioOuReload();
+      alert('Avaliação enviada com sucesso. Obrigado!');
+      fecharAvaliacao(fisioId);
+      // atualizar a visualização (mantém paciente no card)
+      const area = selectAreaPaciente.value || usuario.areaDesejada;
+      if(area) listarFisioterapeutas(area);
     };
 
-    /***********************
-     * Logout e restauração
-     ***********************/
-    document.getElementById('btnLogout').addEventListener('click', () => {
+    /* ==========================
+       FISIO: Dashboard, editar serviços, solicitações e avaliações
+       ========================== */
+    function renderFisioDashboard(fisioUser){
+      const usuarios = getUsuarios();
+      const f = usuarios.find(u=>u.id===fisioUser.id) || fisioUser;
+      infoFisio.innerHTML = `<strong>${f.nome}</strong><br><span class="muted">${f.servicos && f.servicos.length ? f.servicos.join(', ') : 'Nenhum serviço cadastrado'}</span><br><span class="muted">Valor: ${f.valor ? 'R$ ' + Number(String(f.valor).replace(',','.')).toFixed(2) : 'Não informado'}</span>`;
+
+      // preencher checkboxes editServicos com os servicos atuais
+      Array.from(document.querySelectorAll('.editSrvChk')).forEach(ch=>{
+        ch.checked = (f.servicos || []).includes(ch.value);
+      });
+      editValor.value = f.valor || '';
+
+      // listar solicitacoes
+      listaSolicitacoes.innerHTML = '';
+      if(!f.solicitacoes || f.solicitacoes.length === 0){
+        listaSolicitacoes.innerHTML = '<p class="muted">Nenhum paciente solicitou atendimento ainda.</p>';
+      } else {
+        f.solicitacoes.forEach(s=>{
+          const div = document.createElement('div');
+          div.className = 'fisio-item';
+          div.innerHTML = `<strong>${s.pacienteNome}</strong><div class="muted">${s.telefone} · ${s.area}</div>
+                           <div style="margin-top:8px;"><button class="btn btn-orange" onclick="marcarAtendido('${f.id}','${s.pacienteId}')">Marcar como atendido</button></div>`;
+          listaSolicitacoes.appendChild(div);
+        });
+      }
+
+      // listar avaliacoes recebidas
+      listaAvaliacoesFisio.innerHTML = '';
+      if(!f.avaliacoes || f.avaliacoes.length === 0){
+        listaAvaliacoesFisio.innerHTML = '<p class="muted">Nenhuma avaliação recebida ainda.</p>';
+      } else {
+        // mostrar do mais recente
+        const reversed = f.avaliacoes.slice().reverse();
+        reversed.forEach(a=>{
+          const div = document.createElement('div');
+          div.className = 'fisio-item';
+          div.innerHTML = `<strong>${a.pacienteNome} — ${a.nota}★</strong><div class="muted">${new Date(a.data).toLocaleString()}</div>
+                           <div style="margin-top:8px;">${a.comentario ? `<div>${a.comentario}</div>` : ''}</div>`;
+          listaAvaliacoesFisio.appendChild(div);
+        });
+      }
+    }
+
+    btnSalvarServicos.addEventListener('click', ()=>{
+      const user = getUsuarioLogado();
+      if(!user || user.tipo !== 'fisio') return;
+      const usuarios = getUsuarios();
+      const idx = usuarios.findIndex(u=>u.id===user.id);
+      if(idx < 0) return;
+      const servs = Array.from(document.querySelectorAll('.editSrvChk:checked')).map(c=>c.value);
+      usuarios[idx].servicos = servs;
+      usuarios[idx].valor = editValor.value.trim();
+      setUsuarios(usuarios);
+      setUsuarioLogado(usuarios[idx]);
+      alert('Serviços e valor atualizados.');
+      renderFisioDashboard(usuarios[idx]);
+    });
+
+    window.marcarAtendido = function(fisioId, pacienteId){
+      const usuarios = getUsuarios();
+      const idx = usuarios.findIndex(u=>u.id===fisioId);
+      if(idx<0) return;
+      usuarios[idx].solicitacoes = (usuarios[idx].solicitacoes || []).filter(s=>s.pacienteId !== pacienteId);
+      setUsuarios(usuarios);
+      // atualizar logado
+      const log = getUsuarioLogado();
+      if(log && log.id === fisioId) setUsuarioLogado(usuarios[idx]);
+      renderFisioDashboard(usuarios[idx]);
+    };
+
+    /* ==========================
+       Logout
+       ========================== */
+    btnSairPaciente.addEventListener('click', ()=>{
       localStorage.removeItem('usuarioLogado');
-      localStorage.setItem('usuarioLogado_update_ts', Date.now().toString());
+      location.reload();
+    });
+    btnSairFisio.addEventListener('click', ()=>{
+      localStorage.removeItem('usuarioLogado');
       location.reload();
     });
 
-    // carregar dashboard se já estiver logado
-    window.addEventListener('load', () => {
-      const user = pegarUsuarioLogado();
-      if (user) {
-        // atualizar com a versão mais atual dos dados salvos
+    /* ==========================
+       Ao carregar: restore sessão
+       ========================== */
+    window.addEventListener('load', ()=>{
+      const user = getUsuarioLogado();
+      if(user){
+        // obter versão atualizada do storage
         const usuarios = getUsuarios();
-        const upt = usuarios.find(u => u.email === user.email);
-        if (upt) {
-          salvarUsuarioLogado(upt);
-          mostrarDashboard(upt);
-        } else {
-          // nada, manter tela de cadastro/login
-        }
+        const fresh = usuarios.find(u=>u.email===user.email) || user;
+        setUsuarioLogado(fresh);
+        mostrarDashboard(fresh);
       } else {
-        // mostra cadastro (padrão)
+        // mostrar auth card (padrão)
+        cardAuth.classList.remove('hidden');
       }
     });
 
-    // pequena função para atualizar display do usuário atual (útil quando storage muda)
-    function mostraAtualUsuarioOuReload() {
-      const log = pegarUsuarioLogado();
-      if (!log) {
-        // nada
-        return;
-      }
-      const usuarios = getUsuarios();
-      const atual = usuarios.find(u => u.email === log.email) || log;
-      salvarUsuarioLogado(atual);
-      mostrarDashboard(atual);
-    }
-
-    /***********************
-     * Atualização automática entre abas (storage event)
-     ***********************/
-    window.addEventListener('storage', (ev) => {
-      // quando 'usuarios' mudar, atualizar o dashboard caso alguém esteja logado
-      if (ev.key === 'usuarios' || ev.key === 'usuarios_update_ts' || ev.key === 'usuarioLogado_update_ts') {
-        // pega usuario logado atual e atualiza a view de acordo com o tipo
-        const log = pegarUsuarioLogado();
-        if (!log) return;
+    /* ==========================
+       Sincronização entre abas (quando novos fisioterapeutas se cadastram)
+       ========================== */
+    window.addEventListener('storage', (ev)=>{
+      if(ev.key === 'usuarios' || ev.key === 'usuarios_update_ts' || ev.key === 'usuarioLogado_update_ts'){
+        const user = getUsuarioLogado();
+        if(!user) return;
         const usuarios = getUsuarios();
-        const atual = usuarios.find(u => u.email === log.email) || log;
-        // se paciente: re-renderiza lista de fisioterapeutas (para ver novos fisios)
-        if (atual.tipo === 'paciente') {
-          salvarUsuarioLogado(atual);
-          // só re-renderizar paciente dashboard sem perder estado
-          renderPacienteDashboard(atual);
-        } else if (atual.tipo === 'fisio') {
-          // se fisioterapeuta, atualiza suas solicitações/avaliacoes
-          salvarUsuarioLogado(atual);
-          renderFisioDashboard(atual);
+        const fresh = usuarios.find(u=>u.email===user.email) || user;
+        setUsuarioLogado(fresh);
+        // re-render conforme tipo
+        if(fresh.tipo === 'paciente'){
+          // re-render paciente list if currently visible & same area
+          const area = selectAreaPaciente.value || fresh.areaDesejada;
+          if(area) listarFisioterapeutas(area);
+        } else {
+          renderFisioDashboard(fresh);
         }
       }
     });
 
-    /***********************
-     * Funções auxiliares
-     ***********************/
-    // mostrar alert de esqueci senha (simplesmente local, sem email)
-    document.getElementById('esqueci').addEventListener('click', () => {
-      const email = prompt('Digite seu email cadastrado para recuperar senha:');
-      if (!email) return;
-      const usuarios = getUsuarios();
-      const u = usuarios.find(x => x.email === email.toLowerCase());
-      if (!u) return alert('Email não encontrado.');
-      alert(`Senha (apenas local): ${u.senha} — recomendamos alterar após lembrar.`);
-    });
-
-    // função util para atualizar usuarioLogado caso edite dados externamente
-    function atualizarUsuarioLogadoPorEmail(email) {
-      const usuarios = getUsuarios();
-      const u = usuarios.find(x => x.email === email);
-      if (!u) return null;
-      salvarUsuarioLogado(u);
-      return u;
-    }
-
-    // expor algumas funções para console/debug (opcional)
-    window._DF = {
-      getUsuarios,
-      setUsuarios,
-      salvarUsuarioLogado,
-      pegarUsuarioLogado
-    };
+    /* ==========================
+       Expor funções para debug (opcional)
+       ========================== */
+    window._DF = { getUsuarios, setUsuarios, getUsuarioLogado, setUsuarioLogado };
 
   </script>
 </body>
